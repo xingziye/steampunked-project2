@@ -262,13 +262,13 @@ HTML;
                 <input type="email" id="email" name="email" placeholder="Enter Email" >
             </p>
             <p>
-                <label for="password">Name</label><br>
+                <label for="password">Password</label><br>
                 <input type="text" id="password" name="password" placeholder="Enter Password">
             </p>
 
             <p>
                 <input type="submit" name="ok" id="ok" value="OK"> <input type="submit" id="cancel" name="cancel" value="Cancel">
-                <a href="" >Sign Up</a> <a href="" >Forgot Password</a>
+                <a href="signup.php" >Sign Up</a> <a href="" >Forgot Password</a>
             </p>
 
         </fieldset>
