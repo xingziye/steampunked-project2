@@ -248,6 +248,39 @@ HTML;
         return $html;
     }
 
+    public function createLogin(){
+        $html = <<<HTML
+<div class="login">
+    <div class ="logo">
+        <p><img src="images/title.png" alt="Steampunked Logo"></p>
+    </div>
+    <form method="post" action="game-post.php">
+        <fieldset class="login">
+            <legend>Login</legend>
+            <p>
+                <label for="email">Email</label><br>
+                <input type="email" id="email" name="email" placeholder="Enter Email" >
+            </p>
+            <p>
+                <label for="password">Name</label><br>
+                <input type="text" id="password" name="password" placeholder="Enter Password">
+            </p>
+
+            <p>
+                <input type="submit" name="ok" id="ok" value="OK"> <input type="submit" id="cancel" name="cancel" value="Cancel">
+                <a href="" >Sign Up</a> <a href="" >Forgot Password</a>
+            </p>
+
+        </fieldset>
+    </form>
+    </div>
+
+HTML;
+
+        return $html;
+
+    }
+
 
     private $game;
 }

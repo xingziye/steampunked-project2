@@ -55,11 +55,12 @@ p.option{
 
 
 div.screen {
-    text-align: center;
-    margin-top: 1em;
-    margin-left: auto ;
-    margin-right: auto ;
-}
+     text-align: center;
+     margin-top: 1em;
+     margin-left: auto ;
+     margin-right: auto ;
+ }
+
 
 fieldset{
     margin-top: 2em;
@@ -102,4 +103,29 @@ div.cell input.south {
 
 div.cell input.west {
     background-image: url("images/leak-w.png");
+}
+
+
+
+div.logo {
+    text-align: center;
+    margin-top: 1em;
+    margin-left: auto ;
+    margin-right: auto ;
+}
+
+
+div.login {
+    text-align: left;
+    margin-top: 1em;
+    margin-left: auto ;
+    margin-right: auto ;
+
+}
+
+fieldset.login{
+    margin-top: 2em;
+    margin-left: auto ;
+    margin-right: auto;
+    width: 300px;
 }

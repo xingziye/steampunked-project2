@@ -11,7 +11,7 @@ $view = new Steampunked\View($steampunked);
     <link href="project1.css" type="text/css" rel="stylesheet" />
 </head>
 <body>
-    <?php echo $view->createStartPage(); ?>
+    <?php echo $view->createLogin(); ?>
 
 </body>
 </html>
