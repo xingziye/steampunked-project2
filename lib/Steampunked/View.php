@@ -268,7 +268,7 @@ HTML;
 
             <p>
                 <input type="submit" name="ok" id="ok" value="OK"> <input type="submit" id="cancel" name="cancel" value="Cancel">
-                <a href="signup.php" >Sign Up</a> <a href="" >Forgot Password</a>
+                <a href="signup.php" >Sign Up</a> <a href="forgotPassword.php" >Forgot Password</a>
             </p>
 
         </fieldset>
