@@ -1,5 +1,6 @@
 <?php
-require '../lib/game.inc.php';
+require __DIR__. '/lib/game.inc.php';
+
 $controller = new Steampunked\Controller($steampunked, $_POST);
 
 if($controller->isReset()) {
