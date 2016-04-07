@@ -1,5 +1,5 @@
 <?php
-require __DIR__ . '/lib/game.inc.php';
+require '../lib/game.inc.php';
 
 $controller = new Steampunked\PasswordValidationController($site, $_POST);
 

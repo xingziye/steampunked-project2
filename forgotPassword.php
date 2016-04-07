@@ -17,7 +17,7 @@ $view = new Steampunked\View($steampunked);
     <div class ="logo">
         <p><img src="images/title.png" alt="Steampunked Logo"></p>
     </div>
-    <form method="post" action="game-post.php">
+    <form method="post" action="post/game-post.php">
         <fieldset class="login">
             <legend>Password Recovery</legend>
             <p>
