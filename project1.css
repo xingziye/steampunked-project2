@@ -129,3 +129,7 @@ fieldset.login{
     margin-right: auto;
     width: 300px;
 }
+
+.wrong{
+    color: #FF0000;
+}

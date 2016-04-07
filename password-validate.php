@@ -1,6 +1,6 @@
 <?php
 require 'lib/game.inc.php';
-$view = new Steampunked\LoginView($_SESSION, $_GET);
+$view = new Steampunked\PassordValidationView($site, $_GET);
 ?>
 
 <!DOCTYPE html>
@@ -11,7 +11,9 @@ $view = new Steampunked\LoginView($_SESSION, $_GET);
     <link href="project1.css" type="text/css" rel="stylesheet" />
 </head>
 <body>
-    <?php echo $view->createLogin(); ?>
 
+<div class="login">
+    <?php echo $view->present(); ?>
+</div>
 </body>
 </html>

@@ -14,14 +14,6 @@ class Controller
     public function __construct(Steampunked $steampunked, $post) {
         $this->steampunked = $steampunked;
 
-        if (isset($post['ok'])) {
-            $this->page = "home.php";
-            return;
-        }
-        if (isset($post['cancel'])) {
-            $this->page = "./";
-            return;
-        }
 
         if (isset($post['player1']) and isset($post['player2']) and isset($post['gamesize'])) {
             $player0 = new Player(strip_tags($post['player1']), 0);
