@@ -91,9 +91,9 @@ SQL;
     public function joinGame($gameid, $id){
 
         $sql =<<<SQL
-INSERT into $this->tableName(player2)
-VALUES(?)
-WHERE gameid = $gameid
+UPDATE $this->tableName
+SET player2=?
+WHERE id=$gameid
 SQL;
 
         $pdo = $this->pdo();

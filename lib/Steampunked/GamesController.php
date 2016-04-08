@@ -20,9 +20,6 @@ class GamesController
     public function __construct(Site $site, User $user, array $post) {
 
 
-//        $player1 = strip_tags($post['player1name']);
-//        $player2 = strip_tags($post['player2name']);
-
         $root = $site->getRoot();
 
         if(isset($post['create'])){
