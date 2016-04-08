@@ -77,6 +77,44 @@ SQL;
 
     }
 
+    public function addGuest(User $user)
+    {
+        $sql = <<<SQL
+INSERT INTO $this->tableName(email, name, gameid)
+values(?, ?, ?)
+SQL;
+
+        $statement = $this->pdo()->prepare($sql);
+        $statement->execute(array($user->getEmail(), $user->getName(), $user->getGameid()));
+
+
+        $sql = <<<SQL
+SELECT * from $this->tableName
+WHERE name='guest'
+SQL;
+
+        $statement = $this->pdo()->prepare($sql);
+        $statement->execute(array());
+        $row = $statement->fetch(\PDO::FETCH_ASSOC);
+        return new User($row);
+
+    }
+
+    public function updateGuestName($user){
+        $sql = <<<SQL
+UPDATE $this->tableName
+SET name=?
+WHERE id=?
+SQL;
+        $name = $user->getName();
+        $id = $user->getId();
+        $finalName = $name . $id;
+        $statement = $this->pdo()->prepare($sql);
+        $statement->execute(array($finalName, $id));
+    }
+
+
+
     public function add(User $user, Email $mailer) {
         // Ensure we have no duplicate email address
         if($this->exists($user->getEmail())) {

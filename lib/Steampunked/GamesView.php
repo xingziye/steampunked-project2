@@ -29,7 +29,7 @@ class GamesView
         <p><img src="images/title.png" alt="Steampunked Logo"></p>
     </div>
 <form class="table" action="post/games-post.php" method="post">
-    <h1>Current Active Games</h1>
+    <h1>Active Open Games</h1>
 	<p>
 	<input type="submit" name="create" id="create" value="Create Game">
 	<input type="submit" name="join" id="join" value="Join Game">
