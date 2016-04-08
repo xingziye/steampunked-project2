@@ -20,7 +20,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
 	public function test_gridPresent()
 	{
 		$steampunked = new Steampunked\Steampunked();
-		$steampunked->createGame(6, "Anthony", "Santoro");
+		$steampunked->createGame(7, 6, "Anthony", "Santoro");
 		$view = new Steampunked\View($steampunked);
 		$html = $view->createGrid();
 		$size = $steampunked->getSize();
@@ -37,7 +37,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
 		$steampunked = new Steampunked\Steampunked();
 		$player0 = new Steampunked\Player("Player1", 0);
 		$player1 = new Steampunked\Player("Player2", 1);
-		$steampunked->createGame(6, $player0, $player1);
+		$steampunked->createGame(7, 6, $player0, $player1);
 		$view = new Steampunked\View($steampunked);
 		$html = $view->createOptionButtons();
 		$num_radio = $view->createRadioButtons();
@@ -55,7 +55,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
 		$steampunked = new Steampunked\Steampunked();
 		$player0 = new Steampunked\Player("Player1", 0);
 		$player1 = new Steampunked\Player("Player2", 1);
-		$steampunked->createGame(6, $player0, $player1);
+		$steampunked->createGame(7, 6, $player0, $player1);
 		$view = new Steampunked\View($steampunked);
 		$html = $view->presentTurn();
 		$this->assertContains("<p class=\"message\">Player1, your turn!</p>", $html);
@@ -73,7 +73,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
 		$steampunked = new Steampunked\Steampunked();
 		$player0 = new Steampunked\Player("Player1", 0);
 		$player1 = new Steampunked\Player("Player2", 1);
-		$steampunked->createGame(6, $player0, $player1);
+		$steampunked->createGame(7, 6, $player0, $player1);
 		$view = new Steampunked\View($steampunked);
 		$html = $view->createStartPage();
 		$num_radio = $view->createRadioButtons();

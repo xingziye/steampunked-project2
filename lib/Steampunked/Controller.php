@@ -15,8 +15,11 @@ class Controller
         if (isset($post['player1']) and isset($post['player2']) and isset($post['gamesize'])) {
             $games = new Games($site);
             $id = $games->insert(strip_tags($post['player1']), strip_tags($post['player2']), $post['gamesize']);
-            $player0 = new Player(strip_tags($post['player1']), 0);
-            $player1 = new Player(strip_tags($post['player2']), 1);
+            $users = new Users($site);
+            $user0 = $users->get(strip_tags($post['player1']));
+            $user1 = $users->get(strip_tags($post['player2']));
+            $player0 = new Player($user0->getName(), 0);
+            $player1 = new Player($user1->getName(), 1);
             $steampunked->createGame($id, $post['gamesize'], $player0, $player1);
         }
 

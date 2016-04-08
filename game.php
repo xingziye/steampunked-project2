@@ -1,6 +1,6 @@
 <?php
 require 'lib/game.inc.php';
-$view = new Steampunked\View($steampunked);
+$view = new Steampunked\View($site, $user);
 ?>
 
 

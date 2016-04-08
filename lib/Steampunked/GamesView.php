@@ -54,7 +54,7 @@ HTML;
 		<tr>
 			<td><input type="radio" id="game" name="game" value="$id"></td>
 			<td>$name1</td>
-			<td>$name2</td>
+			<td></td>
 			<td>$size</td>
 		</tr>
 HTML;

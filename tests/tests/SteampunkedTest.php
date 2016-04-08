@@ -21,9 +21,9 @@ class ModelTest extends \PHPUnit_Framework_TestCase
         $player0 = new \Steampunked\Player('Tom', 0);
         $player1 = new \Steampunked\Player('Mary', 1);
         $this->assertEquals(0, $game->getSize());
-        $game->createGame(6, $player0, $player1);
+        $game->createGame(7, 6, $player0, $player1);
         $this->assertEquals(6, $game->getSize());
-        $game->createGame(20, $player0, $player1);
+        $game->createGame(7, 20, $player0, $player1);
         $this->assertEquals(20, $game->getSize());
     }
 
@@ -31,11 +31,11 @@ class ModelTest extends \PHPUnit_Framework_TestCase
         $game = new \Steampunked\Steampunked();
         $player0 = new \Steampunked\Player('Tom', 0);
         $player1 = new \Steampunked\Player('Mary', 1);
-        $game->createGame(6, $player0, $player1);
+        $game->createGame(7, 6, $player0, $player1);
         $this->assertEquals(null, $game->getPlayer(-1));
         $this->assertEquals($player0, $game->getPlayer(0));
         $this->assertEquals(null, $game->getPlayer(2));
-        $game->createGame(6, $player0, $player1);
+        $game->createGame(7, 6, $player0, $player1);
         $this->assertEquals($player1, $game->getPlayer(1));
     }
 
@@ -43,7 +43,7 @@ class ModelTest extends \PHPUnit_Framework_TestCase
         $game = new \Steampunked\Steampunked();
         $player0 = new \Steampunked\Player('Tom', 0);
         $player1 = new \Steampunked\Player('Mary', 1);
-        $game->createGame(6, $player0, $player1);
+        $game->createGame(7, 6, $player0, $player1);
         $this->assertEquals(0, $game->getTurn());
         $game->nextTurn();
         $this->assertEquals(1, $game->getTurn());
@@ -55,7 +55,7 @@ class ModelTest extends \PHPUnit_Framework_TestCase
         $game = new \Steampunked\Steampunked();
         $player0 = new \Steampunked\Player('Player1', 0);
         $player1 = new \Steampunked\Player('Player2', 1);
-        $game->createGame(6, $player0, $player1);
+        $game->createGame(7, 6, $player0, $player1);
         $pipe = new \Steampunked\Tile(\Steampunked\Tile::PIPE, 0);
         $pipe->setOpen("N", false);
         $pipe->setOpen("E", true);

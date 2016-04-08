@@ -13,7 +13,7 @@ class Users extends Table
 {
     /**
      * Constructor
-     * @param $site The Site object
+     * @param Site $site The Site object
      */
     public function __construct(Site $site) {
         parent::__construct($site, "user");
@@ -122,7 +122,7 @@ MSG;
 
     /**
      * Get a user based on the id
-     * @param $id ID of the user
+     * @param int $id ID of the user
      * @returns User object if successful, null otherwise.
      */
     public function get($id) {

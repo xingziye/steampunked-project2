@@ -17,8 +17,6 @@ if(is_callable($localize)) {
 // Start the PHP session system
 session_start();
 
-define("STEAMPUNKED_SESSION", 'steampunked');
-
 $user = null;
 if(isset($_SESSION[Steampunked\User::SESSION_NAME])) {
     $user = $_SESSION[Steampunked\User::SESSION_NAME];

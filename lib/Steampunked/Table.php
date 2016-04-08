@@ -66,7 +66,7 @@ class Table {
 
     public function getConnection()
     {
-        return $this->createDefaultDBConnection(self::$site->pdo(), 'santor10');
+        return $this->createDefaultDBConnection(self::$site->pdo(), 'xingziye');
     }
 
 

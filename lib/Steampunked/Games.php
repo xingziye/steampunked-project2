@@ -74,6 +74,24 @@ SQL;
 
     }
 
+    public function getGameByUser($userid) {
+        $sql = <<<SQL
+SELECT *
+FROM $this->tableName
+WHERE player1=? OR player2=?
+SQL;
+
+        $pdo = $this->pdo();
+        $statement = $pdo->prepare($sql);
+
+        $statement->execute(array($userid, $userid));
+        if($statement->rowCount() === 0) {
+            return null;
+        }
+
+        return $statement->fetch(\PDO::FETCH_ASSOC);
+    }
+
     public function createGame($size, $id){
 
         $sql =<<<SQL

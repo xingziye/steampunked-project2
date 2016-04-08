@@ -14,8 +14,9 @@ class ControllerTest extends \PHPUnit_Framework_TestCase
 
 	//Test Controller construction
 	public function test_construct() {
+        $site = new \Steampunked\Site();
 		$steampunked = new \Steampunked\Steampunked(self::SEED);
-		$controller = new \Steampunked\Controller($steampunked, array());
+		$controller = new \Steampunked\Controller($site, $steampunked, array());
 
 		//Test if Controller class constructs without error
 		$this->assertInstanceOf('\Steampunked\Controller', $controller);
@@ -25,8 +26,9 @@ class ControllerTest extends \PHPUnit_Framework_TestCase
 	//Test post retrieval and redirects from posts
 	public function test_actions() {
 		//test addPiece post
+        $site = new \Steampunked\Site();
 		$steampunked = new \Steampunked\Steampunked(self::SEED);
-		$controller = new \Steampunked\Controller($steampunked, array('add', "cap-e.png"));
+		$controller = new \Steampunked\Controller($site, $steampunked, array('add', "cap-e.png"));
 
 		$this->assertInstanceOf('\Steampunked\Controller', $controller);
 		$this->assertEquals('game.php', $controller->getPage());
@@ -35,7 +37,7 @@ class ControllerTest extends \PHPUnit_Framework_TestCase
 
 		//test rotatePiece post
 		$steampunked = new \Steampunked\Steampunked(self::SEED);
-		$controller = new \Steampunked\Controller($steampunked, array('rotate', "cap-e.png"));
+		$controller = new \Steampunked\Controller($site, $steampunked, array('rotate', "cap-e.png"));
 
 		$this->assertInstanceOf('\Steampunked\Controller', $controller);
 		//next line would check if posted piece object is not equal to the rotated pieces coordinates/values
@@ -44,14 +46,14 @@ class ControllerTest extends \PHPUnit_Framework_TestCase
 
 		//test discardPiece post
 		$steampunked = new \Steampunked\Steampunked(self::SEED);
-		$controller = new \Steampunked\Controller($steampunked, array('discard', "cap-e.png"));
+		$controller = new \Steampunked\Controller($site, $steampunked, array('discard', "cap-e.png"));
 
 		$this->assertInstanceOf('\Steampunked\Controller', $controller);
 		$this->assertEquals('game.php', $controller->getPage());
 
 		//test giveUp post
 		$steampunked = new \Steampunked\Steampunked(self::SEED);
-		$controller = new \Steampunked\Controller($steampunked, array('giveUp'));
+		$controller = new \Steampunked\Controller($site, $steampunked, array('giveUp'));
 
 		$this->assertInstanceOf('\Steampunked\Controller', $controller);
 		//change to correct end game page.php

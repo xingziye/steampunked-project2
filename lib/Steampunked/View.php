@@ -13,10 +13,20 @@ class View
 {
     /**
      * Constructor
-     * @param Steampunked $steampunked The Steakmpunked game object
+     * @param Site
      */
-    public function __construct(Steampunked $steampunked) {
-        $this->game = $steampunked;
+    public function __construct(Site $site, User $user) {
+        $userid = $user->getId();
+        $games = new Games($site);
+        $entry = $games->getGameByUser($userid);
+        $users = new Users($site);
+        $user0 = $users->get($entry['player1']);
+        $user1 = $users->get($entry['player2']);
+        $player0 = new Player($user0->getName(), $user0->getId());
+        $player1 = new Player($user1->getName(), $user1->getId());
+        $game = new Steampunked();
+
+        $game->createGame($entry['id'], $entry['size'], $player0, $player1);
     }
 
     public function createGrid(){
