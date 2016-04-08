@@ -60,12 +60,10 @@ SQL;
         $usersTable = $users->getTableName();
 
         $sql = <<<SQL
-SELECT game.id, game.size, user1.name as user1, user2.name as user2
+SELECT game.id, game.size, user1.name as user1
 from $this->tableName game,
-     $usersTable user1,
-	$usersTable user2
-where game.player1 = user1.id and game.player2=user2.id
-or game.player1 = user1.id and game.player2=NULL
+     $usersTable user1
+where game.player1 = user1.id and game.player2=0
 SQL;
 
         $pdo = $this->pdo();

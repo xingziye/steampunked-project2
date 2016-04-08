@@ -47,7 +47,6 @@ HTML;
         if ($games != null) {
             foreach ($games as $game) {
                 $name1 = $game['user1'];
-                $name2 = $game['user2'];
                 $size = $game['size'];
                 $id = $game['id'];
 
