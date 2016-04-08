@@ -28,13 +28,21 @@ class LoginController
 
         $root = $site->getRoot();
 
-        if($user === null) {
-            // Login failed
-            $this->redirect = "$root/index.php?e";
+        if(isset($post['guest'])){
+            $this->redirect = "$root/home.php";
+
         }
         else{
-            $this->redirect = "$root/home.php";
+            if($user === null) {
+                // Login failed
+                $this->redirect = "$root/index.php?e";
+            }
+            else{
+                $this->redirect = "$root/home.php";
+            }
         }
+
+
 
     }
 
