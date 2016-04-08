@@ -54,4 +54,32 @@ SQL;
 
         return $statement->fetch(\PDO::FETCH_ASSOC);
     }
+
+    public function getGames(){
+
+        $sql =<<<SQL
+SELECT id, player1name, player2name, size from $this->tableName
+SQL;
+
+        $pdo = $this->pdo();
+        $statement = $pdo->prepare($sql);
+        $statement->execute(array());
+
+        return $arr = $statement->fetchAll(\PDO::FETCH_ASSOC);
+
+    }
+
+    public function createGame($size, $name){
+
+        $sql =<<<SQL
+INSERT into $this->tableName(player1name, size)
+VALUES(?,?)
+SQL;
+
+        $pdo = $this->pdo();
+        $statement = $pdo->prepare($sql);
+        $statement->execute(array($name, $size));
+
+
+    }
 }
