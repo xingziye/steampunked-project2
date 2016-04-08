@@ -20,7 +20,7 @@ class Tile
     const GAUGE_TOP0 = 6;
     const GAUGE_TOP190 = 7;
 
-    public function __construct($type, $playerID, $seed = null)
+    public function __construct($type, $playerID)
     {
         $this->type = $type;
         $this->id = $playerID;

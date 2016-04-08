@@ -13,7 +13,7 @@ class Table {
     /**
      * Constructor
      * @param Site $site The site object
-     * @param $name The base table name
+     * @param string $name The base table name
      */
     public function __construct(Site $site, $name) {
         $this->site = $site;
@@ -22,7 +22,7 @@ class Table {
 
     /**
      * Get the database table name
-     * @return The table name
+     * @return string The table name
      */
     public function getTableName() {
         return $this->tableName;
