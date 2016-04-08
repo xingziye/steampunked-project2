@@ -8,7 +8,7 @@ $view = new Steampunked\View($steampunked);
 <head>
     <meta charset="UTF-8">
     <title>Steampunked</title>
-    <link href="project1.css" type="text/css" rel="stylesheet" />
+    <link href="lib/css/steampunked.css" type="text/css" rel="stylesheet" />
 </head>
 <body>
 <?php //echo $view->createStartPage(); ?>
