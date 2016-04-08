@@ -29,6 +29,7 @@ class GamesView
         <p><img src="images/title.png" alt="Steampunked Logo"></p>
     </div>
 <form class="table" action="post/games-post.php" method="post">
+    <h1>Current Active Games</h1>
 	<p>
 	<input type="submit" name="create" id="create" value="Create Game">
 	<input type="submit" name="join" id="join" value="Join Game">
@@ -45,14 +46,14 @@ HTML;
         $games = $games->getGames();
         if ($games != null) {
             foreach ($games as $game) {
-                $name1 = $game['player1name'];
-                $name2 = $game['player2name'];
+                $name1 = $game['user1'];
+                $name2 = $game['user2'];
                 $size = $game['size'];
                 $id = $game['id'];
 
                 $html .= <<<HTML
 		<tr>
-			<td><input type="radio" name="game" value="$id"></td>
+			<td><input type="radio" id="game" name="game" value="$id"></td>
 			<td>$name1</td>
 			<td>$name2</td>
 			<td>$size</td>

@@ -17,16 +17,16 @@ class CreateGameController
      * @param array $session $_SESSION
      * @param assay $post $_POST
      */
-    public function __construct(Site $site, array &$session, array $post) {;
+    public function __construct(Site $site, User $user, array $post) {;
 
         $root = $site->getRoot();
 
         if(isset($post['gamesize'])){
             $size = strip_tags($post['gamesize']);
-            $playerName = strip_tags($post['player1']);
 
             $games = new Games($site);
-            $games->createGame($size, $playerName);
+            $id = $user->getId();
+            $games->createGame($size, $id);
             $this->redirect = "$root/gametable.php";
 
         }

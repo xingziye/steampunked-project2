@@ -56,9 +56,16 @@ SQL;
     }
 
     public function getGames(){
+        $users = new Users($this->site);
+        $usersTable = $users->getTableName();
 
-        $sql =<<<SQL
-SELECT id, player1name, player2name, size from $this->tableName
+        $sql = <<<SQL
+SELECT game.id, game.size, user1.name as user1, user2.name as user2
+from $this->tableName game,
+     $usersTable user1,
+	$usersTable user2
+where game.player1 = user1.id and game.player2=user2.id
+or game.player1 = user1.id and game.player2=NULL
 SQL;
 
         $pdo = $this->pdo();
@@ -69,16 +76,31 @@ SQL;
 
     }
 
-    public function createGame($size, $name){
+    public function createGame($size, $id){
 
         $sql =<<<SQL
-INSERT into $this->tableName(player1name, size)
+INSERT into $this->tableName(player1, size)
 VALUES(?,?)
 SQL;
 
         $pdo = $this->pdo();
         $statement = $pdo->prepare($sql);
-        $statement->execute(array($name, $size));
+        $statement->execute(array($id, $size));
+
+
+    }
+
+    public function joinGame($gameid, $id){
+
+        $sql =<<<SQL
+INSERT into $this->tableName(player2)
+VALUES(?)
+WHERE gameid = $gameid
+SQL;
+
+        $pdo = $this->pdo();
+        $statement = $pdo->prepare($sql);
+        $statement->execute(array($id));
 
 
     }

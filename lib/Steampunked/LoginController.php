@@ -24,12 +24,12 @@ class LoginController
         $email = strip_tags($post['email']);
         $password = strip_tags($post['password']);
         $user = $users->login($email, $password);
-//        $session[User::SESSION_NAME] = $user;
+        $session[User::SESSION_NAME] = $user;
 
         $root = $site->getRoot();
 
         if(isset($post['guest'])){
-            $this->redirect = "$root/home.php";
+            $this->redirect = "$root/gametable.php";
 
         }
         else{
@@ -38,7 +38,7 @@ class LoginController
                 $this->redirect = "$root/index.php?e";
             }
             else{
-                $this->redirect = "$root/home.php";
+                $this->redirect = "$root/gametable.php";
             }
         }
 

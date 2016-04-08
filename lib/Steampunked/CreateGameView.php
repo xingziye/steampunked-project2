@@ -27,11 +27,7 @@ class CreateGameView
     <p><img src="images/title.png" alt="Steampunked Logo"></p>
     <form method="post" action="post/create-game-post.php">
         <fieldset>
-            <legend>Game Preferences</legend>
-            <p>
-                <label for="player1">Your Name:</label>
-                <input type="text" name="player1" id="player1">
-            </p>
+            <legend>Game Size</legend>
             <br>
             <p>
                 <label for="6x6">6x6</label>

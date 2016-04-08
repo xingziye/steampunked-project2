@@ -19,15 +19,15 @@ session_start();
 
 define("STEAMPUNKED_SESSION", 'steampunked');
 
-//$user = null;
-//if(isset($_SESSION[Steampunked\User::SESSION_NAME])) {
-//    $user = $_SESSION[Steampunked\User::SESSION_NAME];
-//}
-
-// If there is a session, use that. Otherwise, create one
-if(!isset($_SESSION[STEAMPUNKED_SESSION])) {
-    $_SESSION[STEAMPUNKED_SESSION] = new Steampunked\Steampunked();
+$user = null;
+if(isset($_SESSION[Steampunked\User::SESSION_NAME])) {
+    $user = $_SESSION[Steampunked\User::SESSION_NAME];
 }
 
-$steampunked = $_SESSION[STEAMPUNKED_SESSION];
+// If there is a session, use that. Otherwise, create one
+//if(!isset($_SESSION[STEAMPUNKED_SESSION])) {
+//    $_SESSION[STEAMPUNKED_SESSION] = new Steampunked\Steampunked();
+//}
+
+//$steampunked = $_SESSION[STEAMPUNKED_SESSION];
 
