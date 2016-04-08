@@ -10,6 +10,7 @@ $view = new Steampunked\View($steampunked);
     <meta charset="UTF-8">
     <title>Steampunked</title>
     <link href="lib/css/steampunked.css" type="text/css" rel="stylesheet" />
+    <script src="reload.js"></script>
 </head>
 <body>
     <?php echo $view->createGrid(); ?>

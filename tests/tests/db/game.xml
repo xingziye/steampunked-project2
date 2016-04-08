@@ -1,19 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <dataset>
-    <test8_clientcase id="22" client="9" agent="8" number="16-9876"
-                      summary="case summary" status="O" />
-    <test8_clientcase id="23" client="10" agent="8" number="16-1234"
-                      summary="case summary" status="O" />
-    <test8_clientcase id="25" client="9" agent="8" number="15-0011"
-                      summary="case summary" status="C" />
+    <testp2_game id="7" player1="1234" player2="5123" size="6" />
+    <testp2_game id="8" player1="3456" player2="2346" size="6" />
+    <testp2_game id="9" player1="4567" player2="5678" size="6" />
 
-    <test8_user id="8" email="cbowen@cse.msu.edu" name="Owen, Charles"
-                phone="" address="" notes="" password=""
-                joined="2015-01-01 23:50:26" role="A" />
-    <test8_user id="9" email="bart@bartman.com" name="Simpson, Bart"
-                phone="" address="" notes="" password=""
-                joined="2015-02-01 01:50:26" role="C" />
-    <test8_user id="10" email="marge@bartman.com" name="Simpson, Marge"
-                phone="" address="" notes="" password=""
-                joined="2015-02-01 01:50:26" role="C" />
+    <testp2_tile id="1" type="0" row="5" col="6" orientation="4" player="1" gameid="7" />
+    <testp2_tile id="2" type="0" row="1" col="2" orientation="2" player="0" gameid="7" />
+    <testp2_tile id="3" type="0" row="3" col="4" orientation="1" player="1" gameid="7" />
 </dataset>

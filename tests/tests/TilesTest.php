@@ -26,78 +26,48 @@ class TilesTest extends \PHPUnit_Extensions_Database_TestCase
     }
 
     public function test_construct() {
-        //$games = new Steampunked\Games(self::$site);
-        //$this->assertInstanceOf('Steampunked\Games', $games);
-    }
-
-    public function test_orientation() {
         $tiles = new \Steampunked\Tiles(self::$site);
-
-        for ($i = 0; $i < 14; $i++) {
-            $this->assertEquals($i, $tiles->orient($tiles->open($i)));
-        }
+        $this->assertInstanceOf('Steampunked\Tiles', $tiles);
     }
 
     /**
      * Test to ensure Cases::get is working.
      */
-    public function test_get() {
-        //$games = new Steampunked\Games(self::$site);
+    public function test_getByGame() {
+        $tiles = new \Steampunked\Tiles(self::$site);
+        $tile_lists = $tiles->getByGame(7);
 
-        //$case = $games->get(22);
+        $tile_array = array();
+        foreach ($tile_lists as $entry) {
+            $tile = new \Steampunked\Tile($entry['type'], $entry['player']);
+            $open = $tiles->open($entry['orientation']);
+            $tile->setOpenArray($open);
+            $tile_array[] = $tile;
+        }
+
+        $this->assertEquals(1, $tile_array[0]->getId());
+        $this->assertEquals(0, $tile_array[0]->getType());
+        $this->assertEquals($tiles->open(4), $tile_array[0]->open());
+        $this->assertEquals(0, $tile_array[1]->getId());
+        $this->assertEquals(0, $tile_array[1]->getType());
+        $this->assertEquals($tiles->open(2), $tile_array[1]->open());
+        $this->assertEquals(1, $tile_array[2]->getId());
+        $this->assertEquals(0, $tile_array[2]->getType());
+        $this->assertEquals($tiles->open(1), $tile_array[2]->open());
     }
 
     public function test_insert() {
-        /*
-        $games = new Steampunked\Games(self::$site);
+        $tiles = new \Steampunked\Tiles(self::$site);
 
-        $id = $games->insert(1931, 1009, 16);
-        $entry = $games->get($id);
-        $this->assertNotNull($entry);
-        $this->assertEquals(16, $entry['size']);
-        $this->assertEquals(1931, $entry['player1']);
-        $this->assertEquals(1009, $entry['player2']);
-        */
-
-        //$id = $cases->insert(9, 8, "16-5544");
-        //$this->assertNull($id);
-    }
-
-    public function test_getCases() {
-        /*
-        $cases = new Felis\Cases(self::$site);
-
-        $all = $cases->getCases();
-        $this->assertEquals(3, count($all));
-        $c1 = $all[0];
-        $this->assertInstanceOf('Felis\ClientCase', $c1);
-        $this->assertEquals(23, $c1->getId());
-        $this->assertEquals(10, $c1->getClient());
-        $this->assertEquals("Simpson, Marge", $c1->getClientName());
-        $this->assertEquals(8, $c1->getAgent());
-        $this->assertEquals("Owen, Charles", $c1->getAgentName());
-        $this->assertEquals("16-1234", $c1->getNumber());
-        $this->assertEquals("case summary", $c1->getSummary());
-        $this->assertEquals(Felis\ClientCase::STATUS_OPEN, $c1->getStatus());
-
-        $c2 = $all[1];
-        $this->assertInstanceOf('Felis\ClientCase', $c2);
-        $this->assertEquals(22, $c2->getId());
-        $this->assertEquals(9, $c2->getClient());
-        $this->assertEquals("Simpson, Bart", $c2->getClientName());
-        $this->assertEquals(8, $c2->getAgent());
-        $this->assertEquals("Owen, Charles", $c2->getAgentName());
-        $this->assertEquals("16-9876", $c2->getNumber());
-
-        $c3 = $all[2];
-        $this->assertInstanceOf('Felis\ClientCase', $c3);
-        $this->assertEquals(25, $c3->getId());
-        $this->assertEquals(9, $c3->getClient());
-        $this->assertEquals("Simpson, Bart", $c3->getClientName());
-        $this->assertEquals(8, $c3->getAgent());
-        $this->assertEquals("Owen, Charles", $c3->getAgentName());
-        $this->assertEquals("15-0011", $c3->getNumber());
-        */
+        $id = $tiles->insert(4, 1, 2, array("N"=>false, "E"=>true, "S"=>false, "W"=>true), 0, 8);
+        $ent = $tiles->get($id);
+        $this->assertNotNull($ent);
+        $this->assertEquals(4, $ent['type']);
+        $this->assertEquals(1, $ent['row']);
+        $this->assertEquals(2, $ent['col']);
+        $this->assertEquals(5, $ent['orientation']);
+        $this->assertEquals(0, $ent['player']);
+        $this->assertEquals(8, $ent['gameid']);
     }
 
     private static $site;

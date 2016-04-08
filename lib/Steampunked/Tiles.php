@@ -12,9 +12,9 @@ class Tiles extends Table
         parent::__construct($site, "tile");
     }
 
-    public function insert($type, $row, $col, $open, $gameid, $playerid) {
+    public function insert($type, $row, $col, $open, $player, $gameid) {
         $sql = <<<SQL
-INSERT INTO $this->tableName (type, row, col, orientation, gameid, playerid)
+INSERT INTO $this->tableName (`type`, row, col, orientation, player, gameid)
 VALUES (?, ?, ?, ?, ?, ?)
 SQL;
 
@@ -23,21 +23,17 @@ SQL;
 
         try {
             $orient = self::orient($open);
-            if($statement->execute(array($type, $row, $col, $orient, $gameid, $playerid)) === false) {
+            if($statement->execute(array($type, $row, $col, $orient, $player, $gameid)) === false) {
                 return null;
             }
         } catch(\PDOException $e) {
+            print_r($e->getMessage());
             return null;
         }
 
         return $pdo->lastInsertId();
     }
 
-    /**
-     * Get a case by id
-     * @param int $id The game by ID
-     * @returns array A list of entry if successful, null otherwise.
-     */
     public function getByGame($gameid) {
         $sql = <<<SQL
 SELECT *
@@ -54,6 +50,28 @@ SQL;
         }
 
         return $statement->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * Get a case by id
+     * @param int $id The game by ID
+     * @returns array entry if successful, null otherwise.
+     */
+    public function get($id) {
+        $sql =<<<SQL
+SELECT * from $this->tableName
+WHERE id=?
+SQL;
+
+        $pdo = $this->pdo();
+        $statement = $pdo->prepare($sql);
+
+        $statement->execute(array($id));
+        if($statement->rowCount() === 0) {
+            return null;
+        }
+
+        return $statement->fetch(\PDO::FETCH_ASSOC);
     }
 
     public function open($orient) {

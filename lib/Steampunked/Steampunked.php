@@ -28,8 +28,9 @@ class Steampunked
         srand($seed);
     }
 
-    public function createGame($size, $player0, $player1)
+    public function createGame($id, $size, $player0, $player1)
     {
+        $this->id = $id;
         $this->continued = true;
         $this->turn = 0;
         $this->pipes = array();
@@ -209,6 +210,10 @@ class Steampunked
         return $this->pipes[$row][$col];
     }
 
+    public function getPipes() {
+        return $this->pipes;
+    }
+
     public function getValves()
     {
         return $this->valves;
@@ -263,6 +268,10 @@ class Steampunked
         $this->continued = $bool;
     }
 
+    public function getId() {
+        return $this->id;
+    }
+
     public function opposite($direction) {
         switch($direction) {
             case "N":
@@ -288,4 +297,5 @@ class Steampunked
     private $players = array();
     private $turn = 0;
     private $continued = true;
+    private $id = null;
 }
