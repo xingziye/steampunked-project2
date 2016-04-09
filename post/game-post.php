@@ -1,5 +1,5 @@
 <?php
-require __DIR__. '/lib/game.inc.php';
+require __DIR__ . '/lib/game.inc.php';
 
 $controller = new Steampunked\Controller($site, $steampunked, $_POST);
 
