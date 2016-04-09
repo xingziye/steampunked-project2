@@ -21,8 +21,8 @@ class Users extends Table
 
     /**
      * Test for a valid login.
-     * @param $email User email
-     * @param $password Password credential
+     * @param string $email User email
+     * @param string $password Password credential
      * @returns User object if successful, null otherwise.
      */
     public function login($email, $password) {
@@ -52,7 +52,6 @@ SQL;
     }
 
 
-
     /**
      * Determine if a user exists in the system.
      * @param $email An email address.
@@ -77,42 +76,28 @@ SQL;
 
     }
 
-    public function addGuest(User $user)
+    public function addGuest()
     {
         $sql = <<<SQL
-INSERT INTO $this->tableName(email, name, gameid)
-values(?, ?, ?)
-SQL;
-
-        $statement = $this->pdo()->prepare($sql);
-        $statement->execute(array($user->getEmail(), $user->getName(), $user->getGameid()));
-
-
-        $sql = <<<SQL
-SELECT * from $this->tableName
-WHERE name='guest'
+INSERT INTO $this->tableName ()
+VALUES ()
 SQL;
 
         $statement = $this->pdo()->prepare($sql);
         $statement->execute(array());
-        $row = $statement->fetch(\PDO::FETCH_ASSOC);
-        return new User($row);
+        $id = $this->pdo()->lastInsertId();
 
-    }
-
-    public function updateGuestName($user){
         $sql = <<<SQL
 UPDATE $this->tableName
-SET name=?
+SET `name`=?
 WHERE id=?
 SQL;
-        $name = $user->getName();
-        $id = $user->getId();
-        $finalName = $name . $id;
-        $statement = $this->pdo()->prepare($sql);
-        $statement->execute(array($finalName, $id));
-    }
 
+        $statement = $this->pdo()->prepare($sql);
+        $statement->execute(array('Guest' . $id, $id));
+
+        return new User(array('id'=>$id, 'name'=>'Guest' . $id));
+    }
 
 
     public function add(User $user, Email $mailer) {

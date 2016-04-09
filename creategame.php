@@ -1,5 +1,5 @@
 <?php
-require 'lib/game.inc.php';
+require 'lib/site.inc.php';
 $view = new Steampunked\CreateGameView($site);
 ?>
 

@@ -21,42 +21,23 @@ class LoginController
         // Create a Users object to access the table
         $users = new Users($site);
 
-        $email = strip_tags($post['email']);
-        $password = strip_tags($post['password']);
-        $user = $users->login($email, $password);
+        $user = null;
+        if (isset($post['guest'])) {
+            $user = $users->addGuest();
+        } else {
+            $email = strip_tags($post['email']);
+            $password = strip_tags($post['password']);
+            $user = $users->login($email, $password);
+        }
+        $session[User::SESSION_NAME] = $user;
 
         $root = $site->getRoot();
-
-        if(isset($post['guest'])){
-            $id = 0;
-            $row = array('id' => $id,
-                'email' => null,
-                'name' => 'Guest',
-                'gameid' => null,
-                'password' => null
-            );
-
-            $guestuser = new User($row);
-            $user = $users->addGuest($guestuser);
-            $users->updateGuestName($user);
-            $session[User::SESSION_NAME] = $user;
+        if($user === null) {
+            // Login failed
+            $this->redirect = "$root/index.php?e";
+        } else {
             $this->redirect = "$root/gametable.php";
-
         }
-        else{
-            $session[User::SESSION_NAME] = $user;
-
-            if($user === null) {
-                // Login failed
-                $this->redirect = "$root/index.php?e";
-            }
-            else{
-                $this->redirect = "$root/gametable.php";
-            }
-        }
-
-
-
     }
 
     /**

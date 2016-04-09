@@ -13,7 +13,7 @@ class User
 {
     /**
      * Constructor
-     * @param $row Row from the user table in the database
+     * @param array $row Row from the user table in the database
      */
     public function __construct($row) {
         $this->id = $row['id'];
