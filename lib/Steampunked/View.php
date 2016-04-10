@@ -19,14 +19,16 @@ class View
         $userid = $user->getId();
         $games = new Games($site);
         $entry = $games->getGameByUser($userid);
+
         $users = new Users($site);
         $user0 = $users->get($entry['player1']);
         $user1 = $users->get($entry['player2']);
-        $player0 = new Player($user0->getName(), $user0->getId());
-        $player1 = new Player($user1->getName(), $user1->getId());
-        $game = new Steampunked();
+        $player0 = new Player($user0->getName(), 0);
+        $player1 = new Player($user1->getName(), 1);
 
+        $game = new Steampunked();
         $game->createGame($entry['id'], $entry['size'], $player0, $player1);
+        $this->game = $game;
     }
 
     public function createGrid(){
@@ -224,7 +226,7 @@ HTML;
         $html = <<<HTML
         <div class="screen">
     <p><img src="images/title.png" alt="Steampunked Logo"></p>
-    <form method="post" action="game-post.php">
+    <form method="post" action="post/game-post.php">
         <fieldset>
             <legend>Game Preferences</legend>
             <p>
@@ -257,9 +259,6 @@ HTML;
 
         return $html;
     }
-
-
-
 
     private $game;
 }

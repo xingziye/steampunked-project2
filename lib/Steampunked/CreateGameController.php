@@ -27,7 +27,7 @@ class CreateGameController
             $games = new Games($site);
             $id = $user->getId();
             $games->createGame($size, $id);
-            $this->redirect = "$root/gametable.php";
+            $this->redirect = "$root/wait.php";
 
         }
         else{
