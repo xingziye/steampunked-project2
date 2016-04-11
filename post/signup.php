@@ -1,6 +1,6 @@
 <?php
+$open = true;
 require '../lib/site.inc.php';
 
-$controller = new Steampunked\PasswordValidationController($site, $_POST);
-
+$controller = new Steampunked\SignUpController($site, $_POST);
 header("location: " . $controller->getRedirect());

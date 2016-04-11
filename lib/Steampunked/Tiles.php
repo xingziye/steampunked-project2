@@ -27,11 +27,40 @@ SQL;
                 return null;
             }
         } catch(\PDOException $e) {
-            print_r($e->getMessage());
             return null;
         }
 
         return $pdo->lastInsertId();
+    }
+
+    /**
+     * @param array(Tile) $all
+     * @param int $player
+     * @param int $gameid
+     */
+    public function insertSelection($all, $gameid) {
+        $col = 0;
+        foreach ($all as $item) {
+            $sql = <<<SQL
+INSERT INTO $this->tableName (`type`, row, col, orientation, player, gameid)
+VALUES (?, ?, ?, ?, ?, ?)
+SQL;
+            $pdo = $this->pdo();
+            $statement = $pdo->prepare($sql);
+
+            $type = $item->getType();
+            $orient = $this->orient($item->open());
+            $player = $item->getId();
+            try {
+                if($statement->execute(array($type, $col, $col, $orient, $player, $gameid)) === false) {
+                    return null;
+                }
+            } catch(\PDOException $e) {
+                return null;
+            }
+
+            $col++;
+        }
     }
 
     public function getByGame($gameid) {
@@ -46,7 +75,7 @@ SQL;
 
         $statement->execute(array($gameid));
         if($statement->rowCount() === 0) {
-            return null;
+            return array();
         }
 
         return $statement->fetchAll(\PDO::FETCH_ASSOC);
@@ -72,39 +101,6 @@ SQL;
         }
 
         return $statement->fetch(\PDO::FETCH_ASSOC);
-    }
-
-    public function open($orient) {
-        switch($orient) {
-            case 0:
-                return array("N"=>true, "E"=>false, "S"=>false, "W"=>false);
-            case 1:
-                return array("N"=>false, "E"=>true, "S"=>false, "W"=>false);
-            case 2:
-                return array("N"=>false, "E"=>false, "S"=>true, "W"=>false);
-            case 3:
-                return array("N"=>false, "E"=>false, "S"=>false, "W"=>true);
-            case 4:
-                return array("N"=>true, "E"=>false, "S"=>true, "W"=>false);
-            case 5:
-                return array("N"=>false, "E"=>true, "S"=>false, "W"=>true);
-            case 6:
-                return array("N"=>true, "E"=>true, "S"=>false, "W"=>false);
-            case 7:
-                return array("N"=>false, "E"=>true, "S"=>true, "W"=>false);
-            case 8:
-                return array("N"=>false, "E"=>false, "S"=>true, "W"=>true);
-            case 9:
-                return array("N"=>true, "E"=>false, "S"=>false, "W"=>true);
-            case 10:
-                return array("N"=>false, "E"=>true, "S"=>true, "W"=>true);
-            case 11:
-                return array("N"=>true, "E"=>false, "S"=>true, "W"=>true);
-            case 12:
-                return array("N"=>true, "E"=>true, "S"=>false, "W"=>true);
-            case 13:
-                return array("N"=>true, "E"=>true, "S"=>true, "W"=>false);
-        }
     }
 
     public function orient($open) {

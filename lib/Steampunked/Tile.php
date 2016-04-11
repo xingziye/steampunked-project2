@@ -19,13 +19,14 @@ class Tile
     const GAUGE190 = 5;
     const GAUGE_TOP0 = 6;
     const GAUGE_TOP190 = 7;
+    const PIPE_TO_SELECT = 8;
 
     public function __construct($type, $playerID)
     {
         $this->type = $type;
         $this->id = $playerID;
 
-        if ($type == Tile::PIPE) {
+        if ($type == Tile::PIPE or $type == Tile::PIPE_TO_SELECT) {
             $this->randOpen();
         } elseif ($type == Tile::VALVE_CLOSE) {
             $this->open = array("N"=>false, "E"=>true, "S"=>false, "W"=>false);
@@ -149,7 +150,7 @@ class Tile
     }
 
     public function setOpenArray($open) {
-        $this->open = $open;
+        $this->open = $this->orient($open);
     }
 
     private function randOpen() {
@@ -161,6 +162,39 @@ class Tile
             $this->randOpen();
         } elseif ($this->open() == array("N"=>false, "E"=>false, "S"=>false, "W"=>false)) {
             $this->randOpen();
+        }
+    }
+
+    public function orient($orient) {
+        switch($orient) {
+            case 0:
+                return array("N"=>true, "E"=>false, "S"=>false, "W"=>false);
+            case 1:
+                return array("N"=>false, "E"=>true, "S"=>false, "W"=>false);
+            case 2:
+                return array("N"=>false, "E"=>false, "S"=>true, "W"=>false);
+            case 3:
+                return array("N"=>false, "E"=>false, "S"=>false, "W"=>true);
+            case 4:
+                return array("N"=>true, "E"=>false, "S"=>true, "W"=>false);
+            case 5:
+                return array("N"=>false, "E"=>true, "S"=>false, "W"=>true);
+            case 6:
+                return array("N"=>true, "E"=>true, "S"=>false, "W"=>false);
+            case 7:
+                return array("N"=>false, "E"=>true, "S"=>true, "W"=>false);
+            case 8:
+                return array("N"=>false, "E"=>false, "S"=>true, "W"=>true);
+            case 9:
+                return array("N"=>true, "E"=>false, "S"=>false, "W"=>true);
+            case 10:
+                return array("N"=>false, "E"=>true, "S"=>true, "W"=>true);
+            case 11:
+                return array("N"=>true, "E"=>false, "S"=>true, "W"=>true);
+            case 12:
+                return array("N"=>true, "E"=>true, "S"=>false, "W"=>true);
+            case 13:
+                return array("N"=>true, "E"=>true, "S"=>true, "W"=>false);
         }
     }
 

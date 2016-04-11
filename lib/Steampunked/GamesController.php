@@ -42,7 +42,17 @@ class GamesController
             $games->joinGame($gameid, $id);
             $this->redirect = "$root/game.php";
 
-            $key = $games->get($gameid)['player1'];
+            // initialize player2 selections
+            $tiles = new Tiles($site);
+            $game = $games->getGameByUser($id);
+            $all = $tiles->getByGame($gameid);
+            $game->createGame($all);
+            $selection2 = $game->getSelection($id);
+            print_r($selection2);
+            print_r($all);
+            $tiles->insertSelection($selection2, $gameid);
+
+            $key = $games->get($gameid)->getPlayer(1);
             /*
              * PHP code to cause a push on a remote client.
              */

@@ -1,4 +1,5 @@
 <?php
+$open = true;
 require 'lib/site.inc.php';
 $view = new Steampunked\SignUpView();
 ?>

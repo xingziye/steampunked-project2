@@ -11,12 +11,13 @@ namespace Steampunked;
 
 class Player
 {
-    public function __construct($name, $id)
+    public function __construct($name, $userid, $turn)
     {
         $this->name = $name;
+        $this->userid = $userid;
 
         for ($i = 0; $i < 5; $i++) {
-            $this->selections[] = new Tile(Tile::PIPE, $id);
+            $this->selections[] = new Tile(Tile::PIPE, $turn);
         }
     }
 
@@ -37,6 +38,11 @@ class Player
         return $this->selections;
     }
 
+    public function getUserid() {
+        return $this->userid;
+    }
+
     private $name;
     private $selections;
+    private $userid;
 }

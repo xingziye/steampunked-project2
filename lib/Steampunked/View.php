@@ -14,29 +14,26 @@ class View
     /**
      * Constructor
      * @param Site
+     * @param User
      */
     public function __construct(Site $site, User $user) {
-        $userid = $user->getId();
+        $this->user = $user;
         $games = new Games($site);
-        $entry = $games->getGameByUser($userid);
-
-        $users = new Users($site);
-        $user0 = $users->get($entry['player1']);
-        $user1 = $users->get($entry['player2']);
-        $player0 = new Player($user0->getName(), 0);
-        $player1 = new Player($user1->getName(), 1);
-
-        $game = new Steampunked();
-        $game->createGame($entry['id'], $entry['size'], $player0, $player1);
+        $game = $games->getGameByUser($user->getId());
+        $tiles = new Tiles($site);
+        $all = $tiles->getByGame($game->getId());
+        $game->createGame($all);
         $this->game = $game;
     }
 
     public function createGrid(){
+        $gameid = $this->game->getId();
 
         $html = <<<HTML
         <div class="container">
     <p><img src="images/title.png"></p>
-    <form method="post" action="game-post.php">
+    <form method="post" action="post/game-post.php">
+    <input type="hidden" name="gameid" value="$gameid">
             <div class="game">
 HTML;
 
@@ -56,7 +53,8 @@ HTML;
                     $html .= "<div class=\"cell\"><img src=$image></div>";
                 } else {
                     $pipe = $this->game->getPipe($row, $col);
-                    if ($pipe !== null and $pipe->getType() == Tile::LEAK and $pipe->getId() == $this->game->getTurn()) {
+                    $turn = $this->game->getTurn();
+                    if (self::playable() and $pipe !== null and $pipe->getType() == Tile::LEAK and $pipe->getId() == $turn) {
                         switch($pipe->open()) {
                             case array("N"=>true, "E"=>false, "S"=>false, "W"=>false):
                                 $html .= "<div class=\"cell\"><input class='north' type=\"submit\" name=\"leak\" value=\"$row, $col\"></div>";
@@ -86,21 +84,28 @@ HTML;
     }
 
     public function presentTurn() {
-        $turn = $this->game->getTurn();
-        $name = $this->game->getPlayer($turn)->getName();
-        if($this->game->isContinued() == false){
-            $html = "<p class=\"message\">$name, your win!</p>";
+        $name = $this->user->getName();
+        $playable = self::playable();
+        if($this->game->isContinued() == false) {
+            if ($playable) {
+                $html = "<p class=\"message\">$name, you lose!</p>";
+            } else {
+                $html = "<p class=\"message\">$name, you win!</p>";
+            }
         }
-        else{
-            $html = "<p class=\"message\">$name, your turn!</p>";
+        else {
+            if ($playable) {
+                $html = "<p class=\"message\">$name, your turn!</p>";
+            } else {
+                $html = "<p class=\"message\">$name's turn, please wait!</p>";
+            }
         }
 
         return $html;
     }
 
     public function createRadioButtons(){
-        $turn = $this->game->getTurn();
-        $selections = $this->game->getPlayer($turn)->getSelections();
+        $selections = $this->game->getSelection($this->user->getId());
         $images = array();
         foreach($selections as $pipe) {
             $images[] = $this->getImage($pipe);
@@ -165,6 +170,7 @@ HTML;
         }
 
         switch($tile->getType()) {
+            case Tile::PIPE_TO_SELECT:
             case Tile::PIPE:
                 switch($tile->open()) {
                     case array("N"=>true, "E"=>false, "S"=>false, "W"=>false):
@@ -260,5 +266,11 @@ HTML;
         return $html;
     }
 
+    private function playable() {
+        $turn = $this->game->getTurn();
+        return $this->user->getId() == $turn;
+    }
+
     private $game;
+    private $user;
 }

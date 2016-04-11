@@ -35,7 +35,7 @@ SQL;
     /**
      * Get a case by id
      * @param int $id The case by ID
-     * @returns array entry if successful, null otherwise.
+     * @returns Steampunked object if successful, null otherwise.
      */
     public function get($id) {
         $sql = <<<SQL
@@ -52,7 +52,7 @@ SQL;
             return null;
         }
 
-        return $statement->fetch(\PDO::FETCH_ASSOC);
+        return new Steampunked($statement->fetch(\PDO::FETCH_ASSOC));
     }
 
     public function getGames(){
@@ -89,21 +89,21 @@ SQL;
             return null;
         }
 
-        return $statement->fetch(\PDO::FETCH_ASSOC);
+        return new Steampunked($statement->fetch(\PDO::FETCH_ASSOC));
     }
 
     public function createGame($size, $id){
 
         $sql =<<<SQL
-INSERT into $this->tableName(player1, size)
-VALUES(?,?)
+INSERT into $this->tableName(player1, `size`, turn)
+VALUES(?, ?, ?)
 SQL;
 
         $pdo = $this->pdo();
         $statement = $pdo->prepare($sql);
-        $statement->execute(array($id, $size));
+        $statement->execute(array($id, $size, $id));
 
-
+        return $pdo->lastInsertId();
     }
 
     public function joinGame($gameid, $id){

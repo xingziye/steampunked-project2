@@ -26,7 +26,7 @@ class SignUpView extends View
         <div class ="logo">
         <p><img src="images/title.png" alt="Steampunked Logo"></p>
     </div>
-    <form method="post" action="post/signup-post.php">
+    <form method="post" action="post/signup.php">
         <fieldset class="login">
             <legend>Registration</legend>
             <p>

@@ -15,7 +15,7 @@ class CreateGameController
      * GamesController constructor.
      * @param Site $site The Site object
      * @param array $session $_SESSION
-     * @param assay $post $_POST
+     * @param array $post $_POST
      */
     public function __construct(Site $site, User $user, array $post) {;
 
@@ -26,9 +26,16 @@ class CreateGameController
 
             $games = new Games($site);
             $id = $user->getId();
-            $games->createGame($size, $id);
-            $this->redirect = "$root/wait.php";
+            $gameid = $games->createGame($size, $id);
 
+            // initialize player1 selections
+            $game = $games->getGameByUser($id);
+            $game->createGame(array());
+            $tiles = new Tiles($site);
+            $selection1 = $game->getSelection($id);
+            $tiles->insertSelection($selection1, $gameid);
+
+            $this->redirect = "$root/wait.php";
         }
         else{
             $this->redirect = "$root/index.php";
