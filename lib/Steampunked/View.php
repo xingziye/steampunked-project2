@@ -54,7 +54,7 @@ HTML;
                 } else {
                     $pipe = $this->game->getPipe($row, $col);
                     $turn = $this->game->getTurn();
-                    if (self::playable() and $pipe !== null and $pipe->getType() == Tile::LEAK and $pipe->getId() == $turn) {
+                    if ($this->playable() and $pipe !== null and $pipe->getType() == Tile::LEAK and $pipe->getId() == $turn) {
                         switch($pipe->open()) {
                             case array("N"=>true, "E"=>false, "S"=>false, "W"=>false):
                                 $html .= "<div class=\"cell\"><input class='north' type=\"submit\" name=\"leak\" value=\"$row, $col\"></div>";

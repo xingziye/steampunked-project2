@@ -96,7 +96,7 @@ class Tile
      * @param Tile
      * @param string
      */
-    public function setNeighbor($neighbor, $direction)
+    public function setNeighbor(&$neighbor, $direction)
     {
         $this->neighbors[$direction] = $neighbor;
         if ($this->type == Tile::LEAK) {

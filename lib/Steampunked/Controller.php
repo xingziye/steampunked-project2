@@ -23,6 +23,9 @@ class Controller
             $player1 = new Player($user1->getName(), 1);
             $steampunked->createGame($id, $post['gamesize'], $player0, $player1);
         }*/
+        $root = $site->getRoot();
+        $this->page = "$root/game.php";
+
         $games = new Games($site);
         $gameid = strip_tags($post['gameid']);
         $game = $games->get($gameid);
@@ -38,16 +41,15 @@ class Controller
 
             $turn = $game->getTurn();
             $ndx = intval($post['radio']);
-            $pipe = clone $game->getPlayer($turn)->getSelections()[$ndx];
-            $result = $game->addPipe($pipe, $row, $col);
-            if ($result == Steampunked::SUCCESS) {
-                $pipe = new Tile(Tile::PIPE, $turn);
-                $game->getPlayer($turn)->setSelection($pipe, $ndx);
-                $game->nextTurn();
-
+            $selection = $game->getSelection($turn);
+            $pipe = clone $selection[$ndx];
+            if ($game->check($pipe, $row, $col) == Steampunked::SUCCESS) {
                 //update database;
-                $tiles = new Tiles($site);
+                $newSelect = new Tile(Tile::PIPE_TO_SELECT, $turn);
+                $tiles->updateSelection($newSelect, $ndx, $gameid);
                 $tiles->insert(Tile::PIPE, $row, $col, $pipe->open(), $turn, $game->getId());
+
+                $game->nextTurn();
             }
         }
         else if(isset($post['rotate']) and isset($post['radio'])){
@@ -92,6 +94,6 @@ class Controller
         return $this->page;
     }
 
-    private $page = 'game.php';     // The next page we will go to
+    private $page;     // The next page we will go to
     private $reset = false;
 }

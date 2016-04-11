@@ -63,6 +63,28 @@ SQL;
         }
     }
 
+    public function updateSelection($pipe, $idx, $gameid) {
+        $sql = <<<SQL
+UPDATE $this->tableName (`type`, row, col, orientation, player, gameid)
+SET `type`=?, row=?, col=?, orientation=?, player=?
+WHERE gameid=?
+SQL;
+
+        $pdo = $this->pdo();
+        $statement = $pdo->prepare($sql);
+
+        $type = $pipe->getType();
+        $orient = $this->orient($pipe->open());
+        $player = $pipe->getId();
+        try {
+            if($statement->execute(array($type, $idx, $idx, $orient, $player, $gameid)) === false) {
+                return null;
+            }
+        } catch(\PDOException $e) {
+            return null;
+        }
+    }
+
     public function getByGame($gameid) {
         $sql = <<<SQL
 SELECT *

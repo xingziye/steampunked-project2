@@ -1,5 +1,5 @@
 <?php
-require __DIR__ . '../lib/site.inc.php';
+require '../lib/site.inc.php';
 
 $controller = new Steampunked\Controller($site, $_POST);
 
