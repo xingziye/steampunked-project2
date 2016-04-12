@@ -14,15 +14,15 @@ class Games extends Table
 
     public function insert($player1, $player2, $size) {
         $sql = <<<SQL
-INSERT INTO $this->tableName (player1, player2, size)
-VALUES (?, ?, ?)
+INSERT INTO $this->tableName (player1, player2, `size`, turn)
+VALUES (?, ?, ?, ?)
 SQL;
 
         $pdo = $this->pdo();
         $statement = $pdo->prepare($sql);
 
         try {
-            if($statement->execute(array($player1, $player2, $size)) === false) {
+            if($statement->execute(array($player1, $player2, $size, $player1)) === false) {
                 return null;
             }
         } catch(\PDOException $e) {
@@ -119,5 +119,17 @@ SQL;
         $statement->execute(array($id));
 
 
+    }
+
+    public function updateTurn($turn, $gameid) {
+        $sql =<<<SQL
+UPDATE $this->tableName
+SET turn=?
+WHERE id=?
+SQL;
+
+        $pdo = $this->pdo();
+        $statement = $pdo->prepare($sql);
+        $statement->execute(array($turn, $gameid));
     }
 }

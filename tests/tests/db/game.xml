@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <dataset>
-    <testp2_game id="7" player1="1234" player2="5123" size="6" />
-    <testp2_game id="8" player1="3456" player2="2346" size="6" />
-    <testp2_game id="9" player1="4567" player2="5678" size="6" />
+    <testp2_game id="7" player1="1234" player2="5123" size="6" turn="1234"/>
+    <testp2_game id="8" player1="3456" player2="2346" size="6" turn="3456"/>
+    <testp2_game id="9" player1="4567" player2="5678" size="6" turn="5678"/>
 
     <testp2_tile id="1" type="0" row="5" col="6" orientation="4" player="1" gameid="7" />
     <testp2_tile id="2" type="0" row="1" col="2" orientation="2" player="0" gameid="7" />
     <testp2_tile id="3" type="0" row="3" col="4" orientation="1" player="1" gameid="7" />
+    <testp2_tile id="4" type="8" row="0" col="0" orientation="1" player="1" gameid="7" />
 </dataset>

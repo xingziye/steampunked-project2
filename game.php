@@ -11,6 +11,9 @@ $view = new Steampunked\View($site, $user);
     <title>Steampunked</title>
     <link href="lib/css/steampunked.css" type="text/css" rel="stylesheet" />
     <script src="push.js"></script>
+    <script>
+        pushInit(<?php $key = 'Lill' . $user->getId(); echo "\"$key\""; ?>);
+    </script>
 </head>
 <body>
     <?php echo $view->createGrid(); ?>

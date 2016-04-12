@@ -81,6 +81,16 @@ class TilesTest extends \PHPUnit_Extensions_Database_TestCase
         //$this->assertEquals(array(), $selection1);
     }
 
+    public function test_updateSelection() {
+        $tiles = new \Steampunked\Tiles(self::$site);
+        $tile = new \Steampunked\Tile(\Steampunked\Tile::PIPE_TO_SELECT, 1);
+        $open = $tile->open();
+        $newTile = $tile;
+        $newTile->rotate();
+        $open2 = $newTile->open();
+        $this->assertNotEquals($open, $open2);
+    }
+
     private static $site;
 
     public static function setUpBeforeClass() {

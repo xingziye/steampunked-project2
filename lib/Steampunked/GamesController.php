@@ -48,8 +48,6 @@ class GamesController
             $all = $tiles->getByGame($gameid);
             $game->createGame($all);
             $selection2 = $game->getSelection($id);
-            print_r($selection2);
-            print_r($all);
             $tiles->insertSelection($selection2, $gameid);
 
             $key = $games->get($gameid)->getPlayer(1);

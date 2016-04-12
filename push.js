@@ -13,7 +13,7 @@ function pushInit(key) {
         try {
             var msg = JSON.parse(e.data);
             if (msg.cmd === "reload") {
-                //location.reload();
+                location.reload();
                 console.log('reloaded');
             } else if (msg.cmd === "start") {
                 location.href = "game.php"

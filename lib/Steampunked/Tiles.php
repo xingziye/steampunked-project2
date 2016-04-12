@@ -65,9 +65,9 @@ SQL;
 
     public function updateSelection($pipe, $idx, $gameid) {
         $sql = <<<SQL
-UPDATE $this->tableName (`type`, row, col, orientation, player, gameid)
-SET `type`=?, row=?, col=?, orientation=?, player=?
-WHERE gameid=?
+UPDATE $this->tableName
+SET orientation=?
+WHERE gameid=? AND `type`=? AND col=? AND player=?
 SQL;
 
         $pdo = $this->pdo();
@@ -77,7 +77,7 @@ SQL;
         $orient = $this->orient($pipe->open());
         $player = $pipe->getId();
         try {
-            if($statement->execute(array($type, $idx, $idx, $orient, $player, $gameid)) === false) {
+            if($statement->execute(array($orient, $gameid, $type, $idx, $player)) === false) {
                 return null;
             }
         } catch(\PDOException $e) {

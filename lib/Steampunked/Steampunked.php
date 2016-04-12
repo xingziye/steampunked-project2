@@ -88,22 +88,36 @@ class Steampunked
             for ($col = 0; $col < 5; $col++) {
                 $this->selection1[] = new Tile(Tile::PIPE_TO_SELECT, $this->player1);
             }
-        } elseif ($this->selection2 == array()) {
+        }
+        if ($this->selection2 == array()) {
             for ($col = 0; $col < 5; $col++) {
                 $this->selection2[] = new Tile(Tile::PIPE_TO_SELECT, $this->player2);
             }
         }
 
-        // check if game starts
+        // connect valves
         $size = $this->getSize();
         $start1 = $this->pipes[$size/2 - 3][0];
         $start2 = $this->pipes[$size/2 + 2][0];
         if ($start1 === null) {
             $this->addLeak($size/2 - 3, 0, $this->valves[$size/2 - 3], 'W');
             $this->valves[$size/2 - 3]->setNeighbor($start1, 'E');
+        }
+        if ($start2 === null) {
             $this->addLeak($size/2 + 2, 0, $this->valves[$size/2 + 2], 'W');
             $this->valves[$size/2 + 2]->setNeighbor($start2, 'E');
-            return;
+        }
+
+        // connect gauge
+        $end1 = $this->pipes[$size/2 - 2][$size - 1];
+        $end2 = $this->pipes[$size/2 + 1][$size - 1];
+        if ($end1 !== null) {
+            $end1->setsetNeighbor($this->gauges[$size/2 - 2], 'E');
+            $this->gauges[$size/2 - 2]->setsetNeighbor($end1, 'W');
+        }
+        if ($end2 !== null) {
+            $end2->setsetNeighbor($this->gauges[$size/2 + 1], 'E');
+            $this->gauges[$size/2 + 1]->setsetNeighbor($end2, 'W');
         }
 
         // connect pipes and add leaks
@@ -111,13 +125,15 @@ class Steampunked
             for ($col = 0; $col < $size; $col++) {
 
                 $pipe = $this->pipes[$row][$col];
-                if ($pipe === null) {
+                if ($pipe === null or $pipe->getType() == Tile::LEAK) {
                     continue;
                 }
-                var_dump($pipe);
 
                 $open = $pipe->open();
                 foreach ($open as $direction => $isOpen) {
+                    if (!$isOpen) {
+                        continue;
+                    }
                     $leakRow = $row;
                     $leakCol = $col;
                     switch ($direction) {
@@ -133,13 +149,13 @@ class Steampunked
                             }
                             $leakRow++;
                             break;
-                        case 'E':
+                        case 'W':
                             if ($col == 0) {
                                 continue;
                             }
                             $leakCol--;
                             break;
-                        case 'W':
+                        case 'E':
                             if ($col == $size - 1) {
                                 continue;
                             }
@@ -149,6 +165,8 @@ class Steampunked
 
                     if ($this->pipes[$leakRow][$leakCol] === null) {
                         $this->addLeak($leakRow, $leakCol, $pipe, $this->opposite($direction));
+                    } else {
+                        //
                     }
                     $pipe->setNeighbor($this->pipes[$leakRow][$leakCol], $direction);
                 }
@@ -376,9 +394,9 @@ class Steampunked
     public function nextTurn()
     {
         if ($this->turn == $this->player1) {
-            $this->turn = $this->player2;
+            return $this->player2;
         } else {
-            $this->turn = $this->player1;
+            return $this->player1;
         }
     }
 
@@ -430,6 +448,10 @@ class Steampunked
         }
     }
 
+    /**
+     * @param int $id
+     * @return array
+     */
     public function getSelection($id) {
         if ($this->player1 == $id) {
             return $this->selection1;

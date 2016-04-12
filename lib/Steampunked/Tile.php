@@ -36,10 +36,6 @@ class Tile
     }
 
     public function rotate() {
-        if ($this->type != Tile::PIPE) {
-            return;
-        }
-
         $temp = $this->open["N"];
         $this->open["N"] = $this->open["W"];
         $this->open["W"] = $this->open["S"];

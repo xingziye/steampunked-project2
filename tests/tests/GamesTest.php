@@ -43,14 +43,26 @@ class GamesTest extends \PHPUnit_Extensions_Database_TestCase
         $games = new Steampunked\Games(self::$site);
 
         $id = $games->insert(1931, 1009, 16);
-        $entry = $games->get($id);
-        $this->assertNotNull($entry);
-        $this->assertEquals(16, $entry['size']);
-        $this->assertEquals(1931, $entry['player1']);
-        $this->assertEquals(1009, $entry['player2']);
+        $game = $games->get($id);
+        $this->assertNotNull($game);
+        $this->assertEquals(16, $game->getSize());
+        $this->assertEquals(1931, $game->getPlayer(1));
+        $this->assertEquals(1009, $game->getPlayer(2));
 
         //$id = $cases->insert(9, 8, "16-5544");
         //$this->assertNull($id);
+    }
+
+    public function test_updateTurn() {
+        $games = new Steampunked\Games(self::$site);
+        $id = $games->insert(1931, 1009, 16);
+        $game = $games->get($id);
+        $this->assertEquals(1931, $game->getTurn());
+
+        $turn = $game->nextTurn();
+        $games->updateTurn($turn, $id);
+        $game = $games->get($id);
+        $this->assertEquals(1009, $game->getTurn());
     }
 
     public function test_getCases() {
