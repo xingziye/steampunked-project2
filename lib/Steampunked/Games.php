@@ -70,6 +70,20 @@ SQL;
         $statement = $pdo->prepare($sql);
         $statement->execute(array());
 
+        if($statement->rowCount() === 0){
+            $sql = <<<SQL
+SELECT game.id, game.size, user2.name as user2
+from $this->tableName game,
+     $usersTable user2
+where game.player2 = user2.id and game.player1=0
+SQL;
+        $pdo = $this->pdo();
+        $statement = $pdo->prepare($sql);
+        $statement->execute(array());
+            return $arr = $statement->fetchAll(\PDO::FETCH_ASSOC);
+
+        }
+
         return $arr = $statement->fetchAll(\PDO::FETCH_ASSOC);
 
     }
@@ -106,9 +120,10 @@ SQL;
         return $pdo->lastInsertId();
     }
 
-    public function joinGame($gameid, $id){
+    public function joinGame($gameid, $id)
+    {
 
-        $sql =<<<SQL
+        $sql = <<<SQL
 UPDATE $this->tableName
 SET player2=?
 WHERE id=$gameid
@@ -118,6 +133,66 @@ SQL;
         $statement = $pdo->prepare($sql);
         $statement->execute(array($id));
 
+    }
+
+    ///Set status field to 2 (logged out)
+    public function removeFromGame($id){
+        $sql =<<<SQL
+UPDATE $this->tableName
+set status=2
+WHERE player1=?
+SQL;
+
+        $pdo = $this->pdo();
+        $statement = $pdo->prepare($sql);
+        $statement->execute(array($id));
+
+        $sql =<<<SQL
+UPDATE $this->tableName
+set status=2
+WHERE player2=?
+SQL;
+
+        $pdo = $this->pdo();
+        $statement = $pdo->prepare($sql);
+        $statement->execute(array($id));
+
+    }
+
+    ///Remove record from database
+    public function delFromGame($id){
+        $sql =<<<SQL
+DELETE FROM $this->tableName
+WHERE player1=? and status=2
+SQL;
+
+        $pdo = $this->pdo();
+        $statement = $pdo->prepare($sql);
+        $statement->execute(array($id));
+
+        $sql =<<<SQL
+DELETE FROM $this->tableName
+WHERE player2=? and status=2
+SQL;
+
+        $pdo = $this->pdo();
+        $statement = $pdo->prepare($sql);
+        $statement->execute(array($id));
+    }
+
+    public function checkLogout($id){
+
+        $sql = <<<SQL
+SELECT *
+FROM $this->tableName
+WHERE player1=? or player2=?
+SQL;
+
+        $pdo = $this->pdo();
+        $statement = $pdo->prepare($sql);
+        $statement->execute(array($id, $id));
+
+        return $arr = $statement->fetchAll(\PDO::FETCH_ASSOC);
 
     }
 

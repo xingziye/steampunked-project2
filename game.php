@@ -16,6 +16,7 @@ $view = new Steampunked\View($site, $user);
     </script>
 </head>
 <body>
+    <?php echo $view->header(); ?>
     <?php echo $view->createGrid(); ?>
     <?php echo $view->presentTurn(); ?>
     <?php echo $view->createRadioButtons(); ?>

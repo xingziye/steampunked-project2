@@ -1,5 +1,8 @@
+
 <?php
 require 'lib/site.inc.php';
+$view = new Steampunked\WaitView($site);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -13,7 +16,7 @@ require 'lib/site.inc.php';
     </script>
 </head>
 <body>
-<p>Waiting for another player to join your game</p>
+<?php echo $view->present(); ?>
 
 </body>
 </html>

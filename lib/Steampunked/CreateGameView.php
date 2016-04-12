@@ -39,7 +39,7 @@ class CreateGameView
             </p>
             <br>
             <p>
-                <input type="submit">
+                <input type="submit" value="Submit">
             </p>
         </fieldset>
     </form>
