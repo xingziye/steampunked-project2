@@ -13,7 +13,7 @@ class ValidatorTest extends \PHPUnit_Extensions_Database_TestCase
     private static $site;
 
     public static function setUpBeforeClass() {
-        self::$site = new Felis\Site();
+        self::$site = new Steampunked\Site();
         $localize  = require 'localize.inc.php';
         if(is_callable($localize)) {
             $localize(self::$site);
@@ -35,12 +35,12 @@ class ValidatorTest extends \PHPUnit_Extensions_Database_TestCase
         return $this->createFlatXMLDataSet(dirname(__FILE__) . '/db/validator.xml');
     }
     public function test_construct() {
-        $v = new Felis\Validators(self::$site);
-        $this->assertInstanceOf('Felis\Validators', $v);
+        $v = new Steampunked\Validators(self::$site);
+        $this->assertInstanceOf('Steampunked\Validators', $v);
     }
 
     public function test_newValidator() {
-        $validators = new Felis\Validators(self::$site);
+        $validators = new Steampunked\Validators(self::$site);
 
         $validator = $validators->newValidator(27);
         $this->assertEquals(32, strlen($validator));
@@ -57,7 +57,7 @@ SQL;
     }
 
     public function test_getOnce() {
-        $validators = new Felis\Validators(self::$site);
+        $validators = new Steampunked\Validators(self::$site);
 
         // Test a not-found condition
         $this->assertNull($validators->getOnce(""));

@@ -9,7 +9,7 @@
 namespace Steampunked;
 
 
-class PassordValidationView
+class PasswordValidationView
 {
     /**
      * Constructor

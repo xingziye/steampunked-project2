@@ -7,7 +7,7 @@
  */
 require __DIR__ . "/../../vendor/autoload.php";
 
-class CreateGameControllerTest extends \PHPUnit_Extensions_Database_TestCase
+class GamesControllerTest extends \PHPUnit_Extensions_Database_TestCase
 {
 	private static $site;
 
@@ -46,9 +46,9 @@ class CreateGameControllerTest extends \PHPUnit_Extensions_Database_TestCase
 
 		$session = array();	// Fake session
 
-		$controller = new Steampunked\CreateGameController(self::$site, $user, $session);
+		$controller = new Steampunked\GamesController(self::$site, $user, $session);
 
-		$this->assertInstanceOf('Steampunked\CreateGameController', $controller);
+		$this->assertInstanceOf('Steampunked\GamesController', $controller);
 	}
 
 }

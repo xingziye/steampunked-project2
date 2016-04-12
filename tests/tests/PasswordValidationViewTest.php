@@ -7,7 +7,7 @@
  */
 require __DIR__ . "/../../vendor/autoload.php";
 
-class CreateGameControllerTest extends \PHPUnit_Extensions_Database_TestCase
+class PasswordValidationViewTest extends \PHPUnit_Extensions_Database_TestCase
 {
 	private static $site;
 
@@ -36,20 +36,24 @@ class CreateGameControllerTest extends \PHPUnit_Extensions_Database_TestCase
 	}
 
 	public function test_construct(){
-		$row = array('id' => 12,
-			'email' => 'dude@ranch.com',
-			'name' => 'Dude, The',
-			'gameid' => 'Some Notes',
-			'password' => '12345678',
-		);
-		$user = new Steampunked\User($row);
+		$get = array();
 
-		$session = array();	// Fake session
+		$view = new Steampunked\PasswordValidationView(self::$site,$get);
 
-		$controller = new Steampunked\CreateGameController(self::$site, $user, $session);
-
-		$this->assertInstanceOf('Steampunked\CreateGameController', $controller);
+		$this->assertInstanceOf('Steampunked\PasswordValidationView', $view);
 	}
+
+
+	public function test_present(){
+		$get = array();
+
+		$view = new Steampunked\PasswordValidationView(self::$site,$get);
+
+		$this->assertContains('<form method="post" action="post/password-validate.php">', $view->present());
+		$this->assertContains('<input type="hidden" name="validator" value=', $view->present());
+
+	}
+
 
 }
 

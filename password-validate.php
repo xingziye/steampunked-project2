@@ -1,7 +1,7 @@
 <?php
 $open = true;
 require 'lib/site.inc.php';
-$view = new Steampunked\PassordValidationView($site, $_GET);
+$view = new Steampunked\PasswordValidationView($site, $_GET);
 ?>
 
 <!DOCTYPE html>

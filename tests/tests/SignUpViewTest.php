@@ -7,7 +7,7 @@
  */
 require __DIR__ . "/../../vendor/autoload.php";
 
-class CreateGameControllerTest extends \PHPUnit_Extensions_Database_TestCase
+class GamesViewTest extends \PHPUnit_Extensions_Database_TestCase
 {
 	private static $site;
 
@@ -36,20 +36,25 @@ class CreateGameControllerTest extends \PHPUnit_Extensions_Database_TestCase
 	}
 
 	public function test_construct(){
-		$row = array('id' => 12,
-			'email' => 'dude@ranch.com',
-			'name' => 'Dude, The',
-			'gameid' => 'Some Notes',
-			'password' => '12345678',
-		);
-		$user = new Steampunked\User($row);
+		$get = array();
 
-		$session = array();	// Fake session
+		$view = new Steampunked\GamesView(self::$site,$get);
 
-		$controller = new Steampunked\CreateGameController(self::$site, $user, $session);
-
-		$this->assertInstanceOf('Steampunked\CreateGameController', $controller);
+		$this->assertInstanceOf('Steampunked\GamesView', $view);
 	}
+
+
+	public function test_present(){
+		$get = array();
+
+		$view = new Steampunked\SignUpView();
+
+		$this->assertContains('<form method="post" action="post/signup.php">', $view->present());
+		$this->assertContains('<input type="submit" name="ok" id="ok" value="OK">', $view->present());
+		$this->assertContains('<input type="submit" id="cancel" name="cancel" value="Cancel">', $view->present());
+
+	}
+
 
 }
 
