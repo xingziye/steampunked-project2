@@ -15,9 +15,29 @@ class GamesView
      * Constructor
      * Sets the page title and any other settings.
      */
-    public function __construct(Site $site)
+    public function __construct(Site $site, $get)
     {
         $this->site = $site;
+
+        if(isset($get['lo'])){
+            $this->logout= true;
+        }
+
+    }
+
+    public function header(){
+
+        $html = <<<HTML
+        <nav>
+            <ul class="left">
+                <li><a href="./gametable.php">Game Lobby</a></li>
+            </ul>
+            <ul class="right">
+                <li><a href="post/logout.php">Log out</a></li>
+            </ul>
+        </nav>
+HTML;
+        return $html;
 
     }
 
@@ -29,6 +49,13 @@ class GamesView
         <p><img src="images/title.png" alt="Steampunked Logo"></p>
     </div>
 <form class="table" action="post/games-post.php" method="post">
+HTML;
+        if($this->logout == true){
+           $html .= "<p class='loggedout'>Opponenet Logged Out</p>";
+
+        }
+
+        $html .= <<<HTML
     <h1>Active Open Games</h1>
 	<p>
 	<input type="submit" name="create" id="create" value="Create Game">
@@ -45,8 +72,15 @@ HTML;
         $games = new Games($this->site);
         $games = $games->getGames();
         if ($games != null) {
+            $name1='';
+            $name2='';
             foreach ($games as $game) {
-                $name1 = $game['user1'];
+                if(isset($game['user1'])){
+                    $name1 = $game['user1'];
+                }
+                if(isset($game['user2'])){
+                    $name2 = $game['user2'];
+                }
                 $size = $game['size'];
                 $id = $game['id'];
 
@@ -54,7 +88,7 @@ HTML;
 		<tr>
 			<td><input type="radio" id="game" name="game" value="$id"></td>
 			<td>$name1</td>
-			<td></td>
+			<td>$name2</td>
 			<td>$size</td>
 		</tr>
 HTML;
@@ -73,5 +107,6 @@ HTML;
 
     }
     private $site;	///< The Site object
+    private $logout;
 
 }

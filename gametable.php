@@ -1,6 +1,6 @@
 <?php
 require 'lib/site.inc.php';
-$view = new Steampunked\GamesView($site);
+$view = new Steampunked\GamesView($site, $_GET);
 ?>
 
 
@@ -12,8 +12,8 @@ $view = new Steampunked\GamesView($site);
     <link href="lib/css/steampunked.css" type="text/css" rel="stylesheet" />
 </head>
 <body>
-<a href="post/logout.php">Log out</a>
-<?php echo $view->present(); ?>
+    <?php echo $view->header(); ?>
+    <?php echo $view->present(); ?>
 
 
 </body>

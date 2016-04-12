@@ -20,10 +20,19 @@ class View
         $this->user = $user;
         $games = new Games($site);
         $game = $games->getGameByUser($user->getId());
+        $arr = $games->checkLogout($user->getId());
+        if($arr != null){
+            if($arr[0]['loggedOut'] == 1){
+                $games->delFromGame($user->getId());
+                header("Location:".$site->getRoot()."/gametable.php?lo");
+
+            }
+        }
         $tiles = new Tiles($site);
         $all = $tiles->getByGame($game->getId());
         $game->createGame($all);
         $this->game = $game;
+
     }
 
     public function createGrid(){
@@ -33,6 +42,10 @@ class View
         <div class="container">
     <p><img src="images/title.png"></p>
     <form method="post" action="post/game-post.php">
+HTML;
+
+
+        $html .= <<<HTML
     <input type="hidden" name="gameid" value="$gameid">
             <div class="game">
 HTML;
@@ -84,6 +97,7 @@ HTML;
     }
 
     public function presentTurn() {
+        $html='';
         $name = $this->user->getName();
         $playable = self::playable();
         if($this->game->isContinued() == false) {
@@ -97,9 +111,11 @@ HTML;
             if ($playable) {
                 $html = "<p class=\"message\">$name, your turn!</p>";
             } else {
-                $html = "<p class=\"message\">$name's turn, please wait!</p>";
+                $html = "<p class=\"message\">$name, not your turn!</p>";
             }
         }
+
+
 
         return $html;
     }
@@ -114,7 +130,8 @@ HTML;
         $html ="";
 
         if($this->game->isContinued() == true) {
-            $html = <<<HTML
+
+                $html = <<<HTML
         <p class="pieces">
             <label for="radio1"><img src=$images[0] /></label>
             <input type="radio" name="radio" id="radio1" value="0" >
@@ -128,12 +145,15 @@ HTML;
             <input type="radio" name="radio" id="radio5" value="4" >
         </>
 HTML;
+
         }
 
         return $html;
     }
 
     public function createOptionButtons(){
+
+        $html='';
         if($this->game->isContinued() == false){
             $html = <<<HTML
         <div class="options">
@@ -144,8 +164,8 @@ HTML;
 
 HTML;
         }
-        else{
-            $html = <<<HTML
+        else {
+                $html = <<<HTML
         <div class="options">
             <p class="option"><input type="submit" name="rotate" value="Rotate"></p>
             <p class="option"><input type="submit" name="discard" value="Discard"></p>
@@ -156,6 +176,7 @@ HTML;
         </div>
 
 HTML;
+
         }
         return $html;
     }
@@ -264,6 +285,23 @@ HTML;
 HTML;
 
         return $html;
+    }
+
+    public function header(){
+
+        $html = <<<HTML
+        <nav>
+            <ul class="left">
+                <li><a href="./gametable.php">Game Lobby</a></li>
+            </ul>
+            <ul class="right">
+                <li><a href="post/logout.php">Log out</a></li>
+            </ul>
+        </nav>
+HTML;
+
+        return $html;
+
     }
 
     private function playable() {
