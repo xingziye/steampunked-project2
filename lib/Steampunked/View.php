@@ -33,6 +33,9 @@ class View
         $game->createGame($all);
         $this->game = $game;
 
+        $users = new Users($site);
+        $oppoid = $game->getOppo($user->getId());
+        $this->oppo = $users->get($oppoid);
     }
 
     public function createGrid(){
@@ -97,21 +100,21 @@ HTML;
     }
 
     public function presentTurn() {
-        $html='';
-        $name = $this->user->getName();
+        $yourname = $this->user->getName();
+        $opponame = $this->oppo->getName();
         $playable = self::playable();
         if($this->game->isContinued() == false) {
             if ($playable) {
-                $html = "<p class=\"message\">$name, you lose!</p>";
+                $html = "<p class=\"message\">$yourname, you lose!</p>";
             } else {
-                $html = "<p class=\"message\">$name, you win!</p>";
+                $html = "<p class=\"message\">$yourname, you win!</p>";
             }
         }
         else {
             if ($playable) {
-                $html = "<p class=\"message\">$name, your turn!</p>";
+                $html = "<p class=\"message\">$yourname, your turn!</p>";
             } else {
-                $html = "<p class=\"message\">$name, not your turn!</p>";
+                $html = "<p class=\"message\">$opponame's turn, please wait!</p>";
             }
         }
 
@@ -311,4 +314,5 @@ HTML;
 
     private $game;
     private $user;
+    private $oppo;
 }

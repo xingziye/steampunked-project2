@@ -102,11 +102,12 @@ class Controller
         else if(isset($post['open'])){
             $turn = $game->getTurn();
             if ($game->openValve($turn)) {
-                $game->nextTurn();
-                $game->setContinued(false);
+                $turn = $game->nextTurn();
+                $games->updateTurn($turn, $gameid);
             } else {
                 $game->setContinued(false);
             }
+            $games->updateStatus(Steampunked::END, $gameid);
         }
         else if(isset($post['giveup'])){
             $game->nextTurn();

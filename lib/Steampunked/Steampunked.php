@@ -11,8 +11,8 @@ namespace Steampunked;
 
 class Steampunked
 {
-    const WIN = 0;
-    const LOSE = 1;
+    const CONT = 0;
+    const END = 1;
     const SUCCESS = 2;
     const FAILURE = 3;
 
@@ -112,12 +112,12 @@ class Steampunked
         $end1 = $this->pipes[$size/2 - 2][$size - 1];
         $end2 = $this->pipes[$size/2 + 1][$size - 1];
         if ($end1 !== null) {
-            $end1->setsetNeighbor($this->gauges[$size/2 - 2], 'E');
-            $this->gauges[$size/2 - 2]->setsetNeighbor($end1, 'W');
+            $end1->setNeighbor($this->gauges[$size/2 - 2], 'E');
+            $this->gauges[$size/2 - 2]->setNeighbor($end1, 'W');
         }
         if ($end2 !== null) {
-            $end2->setsetNeighbor($this->gauges[$size/2 + 1], 'E');
-            $this->gauges[$size/2 + 1]->setsetNeighbor($end2, 'W');
+            $end2->setNeighbor($this->gauges[$size/2 + 1], 'E');
+            $this->gauges[$size/2 + 1]->setNeighbor($end2, 'W');
         }
 
         // connect pipes and add leaks
@@ -388,6 +388,14 @@ class Steampunked
             return $this->player2;
         } else {
             return null;
+        }
+    }
+
+    public function getOppo($id) {
+        if ($this->player1 == $id) {
+            return $this->player2;
+        } else {
+            return $this->player1;
         }
     }
 

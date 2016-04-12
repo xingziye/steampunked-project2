@@ -196,6 +196,18 @@ SQL;
 
     }
 
+    public function updateStatus($status, $gameid) {
+        $sql =<<<SQL
+UPDATE $this->tableName
+set status=?
+WHERE id=?
+SQL;
+
+        $pdo = $this->pdo();
+        $statement = $pdo->prepare($sql);
+        $statement->execute(array($status, $gameid));
+    }
+
     public function updateTurn($turn, $gameid) {
         $sql =<<<SQL
 UPDATE $this->tableName
