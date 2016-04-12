@@ -22,7 +22,7 @@ class View
         $game = $games->getGameByUser($user->getId());
         $arr = $games->checkLogout($user->getId());
         if($arr != null){
-            if($arr[0]['loggedOut'] == 1){
+            if($arr[0]['status'] == 2){
                 $games->delFromGame($user->getId());
                 header("Location:".$site->getRoot()."/gametable.php?lo");
 

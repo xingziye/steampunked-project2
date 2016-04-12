@@ -135,11 +135,11 @@ SQL;
 
     }
 
-    ///Set loggedOut field to 1
+    ///Set status field to 2 (logged out)
     public function removeFromGame($id){
         $sql =<<<SQL
 UPDATE $this->tableName
-set loggedOut=1
+set status=2
 WHERE player1=?
 SQL;
 
@@ -149,7 +149,7 @@ SQL;
 
         $sql =<<<SQL
 UPDATE $this->tableName
-set loggedOut=1
+set status=2
 WHERE player2=?
 SQL;
 
@@ -163,7 +163,7 @@ SQL;
     public function delFromGame($id){
         $sql =<<<SQL
 DELETE FROM $this->tableName
-WHERE player1=? and loggedOut=1
+WHERE player1=? and status=2
 SQL;
 
         $pdo = $this->pdo();
@@ -172,7 +172,7 @@ SQL;
 
         $sql =<<<SQL
 DELETE FROM $this->tableName
-WHERE player2=? and loggedOut=1
+WHERE player2=? and status=2
 SQL;
 
         $pdo = $this->pdo();
