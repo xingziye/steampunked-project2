@@ -135,6 +135,7 @@ SQL;
 
     }
 
+    ///Set loggedOut field to 1
     public function removeFromGame($id){
         $sql =<<<SQL
 UPDATE $this->tableName
@@ -158,6 +159,7 @@ SQL;
 
     }
 
+    ///Remove record from database
     public function delFromGame($id){
         $sql =<<<SQL
 DELETE FROM $this->tableName
