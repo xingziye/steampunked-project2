@@ -7,7 +7,7 @@
  */
 require __DIR__ . "/../../vendor/autoload.php";
 
-class GamesViewTest extends \PHPUnit_Extensions_Database_TestCase
+class SignUpViewTest extends \PHPUnit_Extensions_Database_TestCase
 {
 	private static $site;
 

@@ -64,15 +64,41 @@ class GamesTest extends \PHPUnit_Extensions_Database_TestCase
         $games = new Steampunked\Games(self::$site);
         $id = $games->insert(1931, 1009, 16);
         $game = $games->get($id);
-        $this->assertEquals(0, $game->getTurn());
+        $this->assertEquals(1931, $game->getTurn());
 
         $turn = $game->nextTurn();
+        $games->updateTurn($turn, $id);
         $game = $games->get($id);
-        $this->assertEquals(0, $game->getTurn());
+        $this->assertEquals(1009, $game->getTurn());
     }
 
+    public function test_getGameByUser() {
+        $games = new Steampunked\Games(self::$site);
+        $game = $games->getGameByUser('1234');
+        $this->assertEquals(7, $game->getId());
+    }
 
+    public function test_createGame() {
+        $games = new Steampunked\Games(self::$site);
+        $games->createGame('8', '233');
+        $game = $games->getGameByUser('233');
+        $this->assertEquals(8, $game->getSize());
+    }
 
+    public function test_joinGame() {
+        $games = new Steampunked\Games(self::$site);
+        $id = $games->insert(1931, 0, 16);
+        $games->joinGame($id, 2016);
+        $game = $games->get($id);
+        $this->assertEquals(2016, $game->getPlayer(2));
+    }
+
+    public function test_Status() {
+        $games = new Steampunked\Games(self::$site);
+        $id = $games->insert(1931, 1234, 16);
+        $entry = $games->checkStatus($id);
+        $this->assertEquals('0', $entry['status']);
+    }
 }
 
 /// @endcond
