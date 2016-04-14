@@ -85,8 +85,8 @@ class Controller
             $games->updateTurn($turn, $gameid);
 
             /*
-                * PHP code to cause a push on a remote client.
-                */
+             * PHP code to cause a push on a remote client.
+             */
             $msg = json_encode(array('key'=>'Lill'.$turn, 'cmd'=>'reload'));
 
             $socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
@@ -100,18 +100,42 @@ class Controller
             socket_close($socket);
         }
         else if(isset($post['open'])){
-            $turn = $game->getTurn();
-            if ($game->openValve($turn)) {
-                $turn = $game->nextTurn();
-                $games->updateTurn($turn, $gameid);
-            } else {
-                $game->setContinued(false);
-            }
             $games->updateStatus(Steampunked::END, $gameid);
+            $turn = $game->nextTurn();
+
+            /*
+             * PHP code to cause a push on a remote client.
+             */
+            $msg = json_encode(array('key'=>'Lill'.$turn, 'cmd'=>'reload'));
+
+            $socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
+
+            $sock_data = socket_connect($socket, '127.0.0.1', 8078);
+            if(!$sock_data) {
+                echo "Failed to connect";
+            } else {
+                socket_write($socket, $msg, strlen($msg));
+            }
+            socket_close($socket);
         }
         else if(isset($post['giveup'])){
-            $game->nextTurn();
-            $game->setContinued(false);
+            $games->updateStatus(Steampunked::FAILURE, $gameid);
+            $turn = $game->nextTurn();
+
+            /*
+             * PHP code to cause a push on a remote client.
+             */
+            $msg = json_encode(array('key'=>'Lill'.$turn, 'cmd'=>'reload'));
+
+            $socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
+
+            $sock_data = socket_connect($socket, '127.0.0.1', 8078);
+            if(!$sock_data) {
+                echo "Failed to connect";
+            } else {
+                socket_write($socket, $msg, strlen($msg));
+            }
+            socket_close($socket);
         }
         else if(isset($post['newgame'])){
             $this->page = './';

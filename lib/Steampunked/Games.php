@@ -126,13 +126,20 @@ SQL;
         $sql = <<<SQL
 UPDATE $this->tableName
 SET player2=?
-WHERE id=$gameid
+WHERE id=?
 SQL;
 
         $pdo = $this->pdo();
         $statement = $pdo->prepare($sql);
-        $statement->execute(array($id));
+        try {
+            if($statement->execute(array($id, $gameid)) === false) {
+                return null;
+            }
+        } catch(\PDOException $e) {
+            return null;
+        }
 
+        return $pdo->lastInsertId();
     }
 
     ///Set status field to 2 (logged out)
@@ -206,6 +213,31 @@ SQL;
         $pdo = $this->pdo();
         $statement = $pdo->prepare($sql);
         $statement->execute(array($status, $gameid));
+    }
+
+    public function checkStatus($id) {
+        $sql = <<<SQL
+SELECT status
+FROM $this->tableName
+WHERE id=?
+SQL;
+
+        $pdo = $this->pdo();
+        $statement = $pdo->prepare($sql);
+        $statement->execute(array($id));
+
+        return $statement->fetch(\PDO::FETCH_ASSOC);
+    }
+
+    public function cleanByUser($id){
+        $sql =<<<SQL
+DELETE FROM $this->tableName
+WHERE player1=? OR player2=?
+SQL;
+
+        $pdo = $this->pdo();
+        $statement = $pdo->prepare($sql);
+        $statement->execute(array($id, $id));
     }
 
     public function updateTurn($turn, $gameid) {

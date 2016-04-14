@@ -26,6 +26,7 @@ class CreateGameController
 
             $games = new Games($site);
             $id = $user->getId();
+            $games->cleanByUser($id);
             $gameid = $games->createGame($size, $id);
 
             // initialize player1 selections

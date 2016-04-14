@@ -39,12 +39,17 @@ class GamesController
 
             $games = new Games($site);
             $id = $user->getId();
+            $games->cleanByUser($id);
             $games->joinGame($gameid, $id);
+            $game = $games->getGameByUser($id);
+            if ($game === null) {
+                $this->redirect = "$root/gametable.php";
+                return;
+            }
             $this->redirect = "$root/game.php";
 
             // initialize player2 selections
             $tiles = new Tiles($site);
-            $game = $games->getGameByUser($id);
             $all = $tiles->getByGame($gameid);
             $game->createGame($all);
             $selection2 = $game->getSelection($id);

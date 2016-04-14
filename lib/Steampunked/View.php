@@ -20,6 +20,11 @@ class View
         $this->user = $user;
         $games = new Games($site);
         $game = $games->getGameByUser($user->getId());
+        if ($game === null) {
+            $this->inGame = false;
+            return;
+        }
+
         $arr = $games->checkLogout($user->getId());
         if($arr != null){
             if($arr[0]['status'] == 2){
@@ -28,6 +33,7 @@ class View
 
             }
         }
+
         $tiles = new Tiles($site);
         $all = $tiles->getByGame($game->getId());
         $game->createGame($all);
@@ -36,6 +42,14 @@ class View
         $users = new Users($site);
         $oppoid = $game->getOppo($user->getId());
         $this->oppo = $users->get($oppoid);
+
+        $status = $games->checkStatus($game->getId())['status'];
+        $turn = $game->getTurn();
+        if ($status === '1') {
+            $game->openValve($turn);
+        } elseif ($status === '3') {
+            $game->giveup($turn);
+        }
     }
 
     public function createGrid(){
@@ -102,12 +116,13 @@ HTML;
     public function presentTurn() {
         $yourname = $this->user->getName();
         $opponame = $this->oppo->getName();
+        $winner = $this->game->getWinner();
         $playable = self::playable();
-        if($this->game->isContinued() == false) {
-            if ($playable) {
-                $html = "<p class=\"message\">$yourname, you lose!</p>";
-            } else {
+        if($winner !== null) {
+            if ($this->user->getId() == $winner) {
                 $html = "<p class=\"message\">$yourname, you win!</p>";
+            } else {
+                $html = "<p class=\"message\">$yourname, you lose!</p>";
             }
         }
         else {
@@ -157,6 +172,12 @@ HTML;
     public function createOptionButtons(){
 
         $html='';
+
+        if (!$this->playable()) {
+            $html .= '</form></div>';
+            return $html;
+        }
+
         if($this->game->isContinued() == false){
             $html = <<<HTML
         <div class="options">
@@ -307,6 +328,10 @@ HTML;
 
     }
 
+    public function isInGame() {
+        return $this->inGame;
+    }
+
     private function playable() {
         $turn = $this->game->getTurn();
         return $this->user->getId() == $turn;
@@ -315,4 +340,5 @@ HTML;
     private $game;
     private $user;
     private $oppo;
+    private $inGame = true;
 }

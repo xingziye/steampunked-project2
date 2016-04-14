@@ -16,10 +16,17 @@ $view = new Steampunked\View($site, $user);
     </script>
 </head>
 <body>
-    <?php echo $view->header(); ?>
-    <?php echo $view->createGrid(); ?>
-    <?php echo $view->presentTurn(); ?>
-    <?php echo $view->createRadioButtons(); ?>
-    <?php echo $view->createOptionButtons(); ?>
+<?php
+    if ($view->isInGame()) {
+        echo $view->header();
+        echo $view->createGrid();
+        echo $view->presentTurn();
+        echo $view->createRadioButtons();
+        echo $view->createOptionButtons();
+    } else {
+        echo $view->header();
+        echo '<p>You are not in a game, please go to lobby to create or join one.</p>';
+    }
+?>
 </body>
 </html>

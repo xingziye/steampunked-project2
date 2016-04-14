@@ -51,7 +51,7 @@ HTML;
             </p>
             <p>
                 <label for="password">Password</label><br>
-                <input type="text" id="password" name="password" placeholder="Enter Password">
+                <input type="password" id="password" name="password" placeholder="Enter Password">
             </p>
 
             <p>

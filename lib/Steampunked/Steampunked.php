@@ -241,11 +241,11 @@ class Steampunked
             if ($gauges[$row] !== null) {
                 if ($gauges[$row]->getId() == $player and $gauges[$row]->getType() == Tile::GAUGE0) {
                     if ($gauges[$row]->indicateLeaks()) {
-                        return true;
+                        $this->winner = $this->getOppo($player);
                     } else {
                         $gauges[$row]->setType(Tile::GAUGE190);
                         $gauges[$row-1]->setType(Tile::GAUGE_TOP190);
-                        return false;
+                        $this->winner = $player;
                     }
                 }
             }
@@ -456,6 +456,18 @@ class Steampunked
         }
     }
 
+    public function giveup($player) {
+        if ($player == $this->player1) {
+            $this->winner = $this->player2;
+        } else {
+            $this->winner = $player;
+        }
+    }
+
+    public function getWinner() {
+        return $this->winner;
+    }
+
     /**
      * @param int $id
      * @return array
@@ -478,4 +490,5 @@ class Steampunked
     private $id = null;
     private $player1;
     private $player2;
+    private $winner = null;
 }
